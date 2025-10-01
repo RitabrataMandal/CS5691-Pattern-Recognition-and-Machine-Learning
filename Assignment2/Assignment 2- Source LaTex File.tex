@@ -1,0 +1,297 @@
+\documentclass[solution,addpoints,12pt]{exam}
+\printanswers  %UNCOMMENT to SHOW solutions in pdf
+\usepackage{amsmath,amssymb,graphicx}
+\usepackage{centernot}
+\usepackage{hyperref}
+\newcommand{\RP}{\ensuremath{\mathsf{RP}}}
+\newcommand{\expect}[1]{\ensuremath{\mathbb{E}[#1]}}
+\newcommand{\dx}{\mathrm{d}x}
+\newcommand{\real}{\mathbb{R}}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+
+%\documentclass[addpoints,11pt,a4paper]{exam}
+\renewcommand{\rmdefault}{ppl} % rm
+\linespread{1.05}        % Palatino needs more leading
+\usepackage[scaled]{helvet} % ss
+\usepackage{courier} % tt
+\usepackage{eulervm} % a better implementation of the euler package (not in gwTeX)
+\normalfont
+\usepackage{caption}
+\usepackage[T1]{fontenc}
+\usepackage{mathrsfs}
+\usepackage{comment}
+\usepackage{graphicx}
+\usepackage{ulem}
+\usepackage{paralist}
+\usepackage{amsmath}
+\usepackage{psfrag}
+\usepackage{fullpage}
+\usepackage{fancybox}
+\usepackage{ifthen}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{bbm}
+\usepackage{listings}             % Include the listings-package
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\usepackage{soul}
+\usepackage{color}
+
+\lstset{language=Python}
+\usepackage{marvosym}
+\usepackage[export]{adjustbox}
+\extrawidth{1in}
+\usepackage{multicol}
+\setlength{\columnsep}{.001cm}
+\newcommand{\twopartdef}[4]
+{
+	\left\{
+		\begin{array}{ll}
+			#1 & \mbox{if } #2 \\
+			#3 & \mbox{if } #4
+		\end{array}
+	\right.
+}
+\newcommand{\G}{\mathcal{G}}
+\newcommand{\fH}{\mathcal{H}}
+\newcommand{\M}{\mathcal{M}}
+
+
+\begin{document}
+
+\hrule
+\vspace{3mm}
+\noindent 
+{\sf IITM-CS5691 : Pattern Recognition and Machine Learning  \hfill Release Date: Oct 1, 2025}
+\\
+\noindent 
+{\sf Assignment 2 \hfill Due Date : Oct 15, 2025, {\bf 9pm}}
+%{\sf ~\hfill }
+\vspace{3mm}
+\hrule
+\vspace{3mm}
+\noindent{{\sf Roll No: EE25S009} }% put your ROLL NO AND NAME HERE
+
+\noindent
+{{\sf Collaborators (if any): }\hfill  {\sf Name: RITABRATA MANDAL}} %Names of the collaborators (if any).
+
+\noindent
+{{\sf References/sources (if any): 
+}} %Reference/source materials, if any.
+
+
+\vspace{3mm}
+\hrule
+\vspace{2mm}
+General Instructions: 
+{\small 
+\begin{itemize}
+\item Use \LaTeX\ to write-up your solutions (in the solution blocks of the source \LaTeX\ file of this assignment), and submit the resulting {\bf single pdf file} at Gradescope by the due date. (Note: {\bf No late submissions} will be allowed, other than one-day late submission with 10\% penalty or four-day late submission with 30\% penalty! You can join Gradescope using the course entry code 6K4P43. {\bf Within Gradescope, clearly mark your answer to each question}, else we won't be able to grade it.)
+\item For the programming question, please submit your code (rollno.ipynb file and rollno.py file in rollno.zip) directly in moodle, but provide your results/answers (including Jupyter notebook {\bf with output}) in the pdf file you upload to Gradescope.
+\item Collaboration is encouraged, but all write-ups must be done individually and independently, and mention your collaborator(s) if any. Same rules apply for codes written for any programming assignments (i.e., write your own code; we will run plagiarism and AI detection checks on codes).
+\item  If you have referred a book or any other online material for obtaining a solution, please cite the source. Again don't copy the source {\it as is} - you may use the source to understand the solution, but write-up the solution in your own words.   
+\item For all the reasons explained in class, you cannot feed these questions into LLMs (Large Language Models like ChatGPT) and cannot use the LLMs' outputs to answer this assignment. Related to this, please also complete the self-declaration statement in the end of your answer sheet pdf. 
+\item Please be advised that {\it the lesser your reliance on online materials or LLMs} for answering the questions, {\it the more your understanding} of the concepts will be and {\it the more prepared you will be for the course exams}.
+\item Points will be awarded based on how clear, concise and rigorous your solutions are, and how correct your answer is. The weightage of this assignment is 11\% towards the overall course grade. 
+\end{itemize}
+}
+\hrule
+
+
+\begin{questions} 
+\question[10] {\sc [Toying around with Spectral Clustering]} You have a dataset of four data points in two-dimensional space:\\
+Data Point 1: (1, 2)\\
+Data Point 2: (2, 3)\\
+Data Point 3: (3, 4)\\
+Data Point 4: (4, 5)\\
+
+Perform spectral clustering to group these data points into two clusters. Similarity matrix can be calculated using this Gaussian kernel with bandwidth $1$:
+\[
+s(\mathbf{x}_i, \mathbf{x}_j) = \exp\left(-\frac{\|\mathbf{x}_i - \mathbf{x}_j\|^2}{2\sigma^2}\right), 
+\quad \sigma = 1.
+\]
+
+Perform the following steps of spectral clustering, and report the output from each step. 
+\begin{parts}
+\part[2] Compute the similarity matrix $A$.
+\begin{solution}
+\end{solution}
+
+\part[2] Compute the (unnormalized) Laplacian matrix $L$.
+\begin{solution}
+\end{solution}
+
+\part[2] Compute the eigenvalues and eigenvectors of $L$.
+\begin{solution}
+\end{solution}
+
+\part[2] Select the eigenvector corresponding to the smallest eigenvalue, normalize the eigenvector so that it is unit-norm, and check if applying a threshold on it will reveal the two clusters? 
+\begin{solution}
+\end{solution}
+
+\part[2] Select the eigenvector corresponding to the second smallest eigenvalue of $L$, normalize this eigenvector, and check if choosing a threshold of 0.7 will reveal two similar clusters in the dataset? \\
+In the last two parts, provide the clusters obtained after performing spectral clustering and explain your reasoning for the cluster assignments based on the eigenvector and threshold.\newline
+\begin{solution}
+\end{solution}
+\end{parts}
+
+
+\question[4] {\sc [Spectral bounds]} Let $G$ be a simple undirected graph over $n$ nodes, with $d_i$ denoting the degree of the $i$th node. If the eigen values of the graph Laplacian $L$ of $G$ are ordered from the smallest to the largest (e.g., second smallest eigenvalue is $\lambda_2$), then show that $\lambda_2 \le \frac{n}{n-1} \bar{d} \le \lambda_n$. Here, $\bar{d} = \frac{1}{n} \sum_i d_i$ is the average degree of a node.\\
+(Hint: What is the sum of all eigenvalues of $L$ in terms of $\bar{d}$?)
+\begin{solution} 
+\end{solution}
+
+
+\question[10] {\sc [Singularly PCA!]}
+Consider a dataset of N points with each datapoint being a $D$-dimensional vector in $\mathbb{R}^D$. Let's assume that:  
+\begin{itemize}
+\item we are in a high-dimensional setting where $D>>N$ (e.g., $D$ in millions, $N$ in hundreds). 
+\item the $N \times D$ matrix $X$ corresponding to this dataset is already mean-centered (so that each column's mean is zero, and the covariance matrix seen in class becomes $S=\frac{1}{N} X^TX$).
+\item the rows (datapoints) of $X$ are linearly independent.
+\end{itemize}
+Under the above assumptions, please attempt the following questions.
+
+\begin{parts}
+\part [3] Whereas $X$ is rectangular in general, $XX^T$ and $X^TX$ are square. Show that these two square matrices have the same set of non-zero eigenvalues. Further, argue briefy why these equal eigenvalues are all positive and $N$ in number, and derive the multiplicity of the zero eigenvalue for both these matrices.\\
+(Note: The square root of these equal positive eigenvalues $\{\lambda_i:=\sigma_i^2\}_{i=1,\ldots,N}$ are called the singular values $\{\sigma_i\}_{i=1,\ldots,N}$ of $X$.)
+\begin{solution}
+\end{solution}
+
+\part [3] We can choose the set of eigenvectors $\{u_i\}_{i-=1,\ldots,N}$ of $XX^T$ to be an orthonormal set and similarly we can choose an orthonormal set of eigenvectors $\{v_j\}_{j=1,\ldots,D}$ for $X^TX$. Briefly argue why this orthonormal choice of eigenvectors is possible. Can you choose $\{v_i\}$ such that each $v_i$ can be computed easily from $u_i$ and $X$ alone (i.e., without having to do an eigenvalue decomposition of the large matrix $X^TX$; assume $i=1,\ldots,N$ so that $\lambda_i > 0$ and $\sigma_i > 0$)?\\
+(Note: $\{u_i\},\{v_i\}$ are respectively called the left,right singular vectors of $X$, and computing them along with the corresponding singular values is called the Singular Value Decomposition or SVD of $X$.) 
+\begin{solution}
+\end{solution}
+
+\part [4] Applying PCA on the matrix $X$ would be computationally difficult as it would involve finding the eigenvectors of $S=\frac{1}{N} X^T X$, which would take $O(D^3)$ time. Using answer to the last question above, can you reduce this time complexity to $O(N^3)$? Please provide the exact steps involved, including the exact formula for computing the normalized (unit-length) eigenvectors of $S$.
+\begin{solution}
+\end{solution}
+\end{parts}
+
+
+\question[8] [{\sc Numerically PCA!}]
+Consider the following dataset $D$ of 8 datapoints: 
+ \begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|}
+    \hline
+    data pt. \# & x     & y     \\ \hline
+    1    & 5.51  & 5.35  \\ \hline
+    2    & 20.82 & 24.03 \\ \hline
+    3    & -0.77 & -0.57 \\ \hline
+    4    & 19.30 & 19.38 \\ \hline
+    5    & 14.24 & 12.77 \\ \hline
+    6    & 9.74  & 9.68  \\ \hline
+    7    & 11.59 & 12.06 \\ \hline
+    8    & -6.08 & -5.22 \\ \hline
+    \end{tabular}
+    \label{tab:data}
+    \end{table}
+
+    You need to reduce the dataset into a single-dimensional  representation. You are given the first principal component: $PC1 = (-0.69, -0.72)$.
+    
+\begin{parts}
+\part[2] What is the $xy$ coordinate for the datapoint reconstructed (approximated) from data pt.~\#2 (x=20.82, y=24.03) using the first principal component of $D$? What is the reconstruction error of this $PC1$-based approximation of data pt.~\#2? 
+\begin{solution}
+\end{solution}
+
+\part[2] What is the second principal component of the dataset $D$?  How will you represent data pt.~\#2 as a linear combination of the two principal components? What is the reconstruction error of this $(PC1,PC2)$-based representation of data pt.~\#2?
+\begin{solution}
+\end{solution}
+
+\part[2] Let $D'$ be the mean-subtracted version of $D$. What will be the first and second principal components $PC1$ and $PC2$ of $D'$? What is the $xy$ coordinate of data pt.~\#2 and its $PC1$-based reconstruction in $D'$? What is the associated reconstruction/approximation error of data pt.~\#2?
+\begin{solution}
+\end{solution}
+
+\part[2] Let $D''$ be a dataset extended from $D$ by adding a third feature $z$ to each datapoint. It so happens that this third feature is a constant value ($3.5$) across all $8$ datapoints. Then, what  will be the three principal components of $D''$, and what is the $xyz$ coordinate of the $PC1$-based reconstruction of data pt.~\#2 in $D''$ and the associated reconstruction error? 
+\begin{solution}
+\end{solution}
+\end{parts}
+
+
+\question[8] {\sc [Ties between two ML tasks]} 
+We will consider two tasks involving a dataset of $n$ points, denoted as $D=\{(x_i,y_i)\}_{i=1}^n$. Assume that the following standard statistics have already been computed from $D$: 
+\begin{itemize}
+    \item $\bar{x} := \frac{1}{n} \sum_{i=1}^n x_i$, ~~~(also $\bar{y}$ defined similarly), 
+    \item $S_{xx} = \sum_{i=1}^n (x_i - \bar{x})^2$, ~~~(also $S_{yy}$ defined similarly), and finally 
+    \item $S_{xy} = \sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})$.
+\end{itemize}
+\begin{parts}
+\part[1] The two minimization problems in parts (b) and (c) below are each related to which ML task seen in class?\\
+(Note: You can use the matrix-vector notation formulas relevant to these ML tasks to solve parts (b) and (c) reasonably quickly.) 
+\begin{solution} 
+\end{solution}
+
+\part[2] Find the line $y=wx + b$ that minimizes the squared vertical distance of the datapoints to the line (i.e., the squared errors in $y$). Specifically, find the $w,b$ that minimizes 
+\[\sum_{i=1}^n ((w x_i + b)-y_i)^2.\] 
+Express the optimal $w,b$ in the simplest form possible in terms of $\bar{x}, \bar{y}, S_{xx}, S_{yy}$, $S_{xy}$, etc.  
+\begin{solution} 
+\end{solution}
+    
+\part[2] Find the line $y=mx + c$ that minimizes the squared perpendicular distance (i.e., shortest distance) of the datapoints to the line. Specifically, find the $m,c$ that minimizes 
+\[\sum_{i=1}^n \frac{((m x_i + c) - y_i)^2}{m^2 + 1}.\]
+Express the optimal $m,c$ in the simplest form possible in terms of $\bar{x}, \bar{y}, S_{xx}, S_{yy}$, $S_{xy}$, etc. 
+\begin{solution} 
+	
+\end{solution}
+
+\part[1] Looking at the expressions you've derived for the above two parts, give a small example dataset where the optimizer $(w,b)$ is identical to the optimizer $(m,c)$, and another dataset/scenario where these two optimizers are quite different. 
+\begin{solution} 
+\end{solution}
+    
+\part[2] Note that the (perpendicular/shortest) distance of a point to a line from geometry is used to get each summation term above in part (c). In this question, use the method of Lagrange multiplier to algebraically derive the same results as follows.\\ 
+Consider a point $p=(p_x,p_y)$. Of all the points on a line $y=mx+c$, what is the closest point to $p$? Also show that the distance between this closest point and $p$ is $\frac{|(m p_x + c) - p_y|}{\sqrt{m^2 + 1}}$.
+\begin{solution} 
+\end{solution}
+
+\part[0] {\sc [Optional ungraded]} What is the optimal $(w,b)$ and $(m,c)$ for the dataset shown below. 
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+$i$ & $x~(\text{i.e.,}~ x_i)$ & $y~(\text{i.e.,}~ y_i)$ \\ \hline
+\#1 & 1 & 1 \\ \hline
+\#2 & 2 & 2 \\ \hline
+\#3 & 4 & 3 \\ \hline
+\#4 & 5 & 4 \\ \hline
+%\#5 & 6 & 4 \\ \hline
+\end{tabular}
+\end{table}
+\begin{solution} 
+\end{solution}
+\end{parts}
+
+
+\question[15] {\sc [Coding Life in Lower Dimensions]}
+You are provided with a dataset of 1797 images in \href{https://drive.google.com/drive/folders/1yshmnkWoALf2ZwqgZqWwXJk2W5_XuCLG?usp=sharing}{a folder here} - each image is $8 \times 8$ pixels and provided as a feature vector of length 64. You will try your hands at transforming this dataset to a lower-dimensional space using PCA. 
+
+Please use the template.ipynb file in the \href{https://drive.google.com/drive/folders/1yshmnkWoALf2ZwqgZqWwXJk2W5_XuCLG?usp=sharing}{same folder} to prepare your solution. Provide your results/answers in the pdf file you upload to Gradescope, and submit your code separately in 
+\href{https://courses.iitm.ac.in/mod/assign/view.php?id=67731}{this} moodle link. The code submitted should be a rollno.zip file containing two files: rollno.ipynb file (including your code as well as the exact same results/plots uploaded to Gradescope) and the associated rollno.py file.
+\red{Write the code from scratch for PCA. The only exception is the computation of eigenvalues and eigenvectors for which you could use the numpy in-bulit function (specifically, do NOT use other functions like numpy.cov).}
+
+\begin{parts}
+\part[5] Run the PCA algorithm on the given dataset. Plot the cumulative percentage variance explained by the principal components. Report the minimum number of principal components that contribute to at least 90\% of the variance in the dataset.
+\begin{solution}
+\end{solution}
+
+\part[5] Perform reconstruction of the dataset using a small number of components: $M \in \{2,4,8,16\}$. Report the Mean Square Error (MSE) between the original data and reconstructed data, and interpret the optimal dimension $\widehat{d}$ based on the MSE values.
+\begin{solution}
+\end{solution}
+
+\part[5] Let's now apply the same code that you've written above to analyze images to understand text. Large language models (LLMs) typically analyze text by representing words as vectors, also known as embeddings. You are provided with 768-dimensional embeddings (extracted from a LLM called BERT) of 10 words in the \href{https://drive.google.com/drive/folders/1yshmnkWoALf2ZwqgZqWwXJk2W5_XuCLG?usp=sharing}{same folder}. Apply your PCA code with $M=2$ principal components on these embeddings to visualize the 10 words in 2-D (you are allowed to use python plotting functions for this task). Report how much percentage of variation is captured by these two principal components. What does this (2D scatterplot) visualization tell you about the embeddings of related vs.~unrelated words? 
+\begin{solution}
+\end{solution}
+\end{parts}
+
+
+\question
+{\sc [Self Declaration]}\\
+I,\underline{Ritabrata Mandal}, swear on my honour that I have prepared and written the answers for this assignment and associated code by myself and have not copied it from the internet, any LLM's output, or other students.
+\end{questions}
+
+
+\end{document}
