@@ -6,6 +6,7 @@
 \newcommand{\RP}{\ensuremath{\mathsf{RP}}}
 \newcommand{\expect}[1]{\ensuremath{\mathbb{E}[#1]}}
 \newcommand{\dx}{\mathrm{d}x}
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
 \newcommand{\real}{\mathbb{R}}
 
 \hypersetup{
@@ -41,7 +42,7 @@
 \newcommand{\red}[1]{\textcolor{red}{#1}}
 \usepackage{soul}
 \usepackage{color}
-
+\usepackage{amsthm}
 \lstset{language=Python}
 \usepackage{marvosym}
 \usepackage[export]{adjustbox}
@@ -60,7 +61,7 @@
 \newcommand{\G}{\mathcal{G}}
 \newcommand{\fH}{\mathcal{H}}
 \newcommand{\M}{\mathcal{M}}
-
+\newcommand*{\QEDA}{\null\nobreak\hfill\ensuremath{\blacksquare}}%
 
 \begin{document}
 
@@ -120,30 +121,120 @@ Perform the following steps of spectral clustering, and report the output from e
 \begin{parts}
 \part[2] Compute the similarity matrix $A$.
 \begin{solution}
+	Given that
+	\begin{align*}
+		x_1 = \begin{bmatrix} 1 \\ 2\end{bmatrix},\quad
+		x_2 = \begin{bmatrix} 2 \\ 3 \end{bmatrix},\quad
+		x_3 = \begin{bmatrix} 3 \\ 4 \end{bmatrix},\quad
+		x_4 = \begin{bmatrix} 4 \\ 5\end{bmatrix}\quad
+	\end{align*}
+	Now we can write the similarity matrix $A$ as
+	\begin{align*}
+		A=\begin{bmatrix}
+			s(x_1,x_1)&s(x_1,x_2)&s(x_1,x_3)&s(x_1,x_4)\\
+			s(x_2,x_1)&s(x_2,x_2)&s(x_2,x_3)&s(x_2,x_4)\\
+			s(x_3,x_1)&s(x_3,x_2)&s(x_3,x_3)&s(x_3,x_4)\\
+			s(x_4,x_1)&s(x_4,x_2)&s(x_4,x_3)&s(x_4,x_4)
+		\end{bmatrix}&=
+		\begin{bmatrix}
+			1&e^{-1}&e^{-4}&e^{-9}\\
+			e^{-1}&1&e^{-1}&e^{-4}\\
+			e^{-4}&e^{-1}&1&e^{-1}\\
+			e^{-9}&e^{-4}&e^{-1}&1
+		\end{bmatrix}\\
+		&\approx\begin{bmatrix}
+		1 & 0.3679 & 0.0183 & 0\\
+		0.3679 & 1 & 0.3679 & 0.0001\\
+		0.0183 & 0.3679 & 1 & 0.0183\\
+		0 & 0.0001 & 0.0183 & 1 
+		\end{bmatrix}
+	\end{align*}
 \end{solution}
 
 \part[2] Compute the (unnormalized) Laplacian matrix $L$.
 \begin{solution}
+	From similarity matrix $A$ we can write the degree matrix 
+	\begin{align*}
+%		D=\begin{bmatrix}
+%			1+e^{-1}+e^{-4}+e^{-9}& 0 & 0 & 0\\
+%			0 & 1+ 2e^{-1}+e^{-4} & 0 & 0\\
+%			0& 0 & 1+2e^{-1}+e^{-4}&0\\
+%			0&0&0&1+e^{-1}+e^{-4}+e^{-9}
+%		\end{bmatrix}
+		D=\begin{bmatrix}
+			1.3862& 0 & 0 & 0\\
+			0 & 1.7359 & 0 & 0\\
+			0& 0 & 1.4045 &0\\
+			0&0&0&1.0184
+		\end{bmatrix}
+	\end{align*}	
+	Now we write the (unnormalized) Laplacian matrix $L$ as
+	\begin{align*}
+%		L=D-A=\begin{bmatrix}
+%			e^{-1}+e^{-4}+e^{-9}&-e^{-1}&-e^{-4}&-e^{-9}\\
+%			-e^{-1}&2e^{-1}+e^{-4}&-e^{-1}&-e^{-4}\\
+%			-e^{-4}&-e^{-1}&2e^{-1}+e^{-4}&-e^{-1}\\
+%			-e^{-9}&-e^{-4}&-e^{-1}&e^{-1}+e^{-4}+e^{-9}
+%		\end{bmatrix}
+		L=D-A=\begin{bmatrix}
+			0.3867 & -0.3679 & -0.0183 & 0\\
+			-0.3679 & 0.7359 & -0.3679 & -0.0001\\
+			-0.0183 & -0.3679 & 0.4045 & -0.0183\\
+			0 & -0.0001 & -0.0183 & 0.0184 
+		\end{bmatrix}
+	\end{align*}
 \end{solution}
 
 \part[2] Compute the eigenvalues and eigenvectors of $L$.
 \begin{solution}
+	The eigenvalues of $L$ are \[\lambda_1=0,~\lambda_2=0.0239,~\lambda_3=0.4142,~\lambda_4=1.1069\]
+	The eigenvectors corresponding to the eigenvectors are
+	\begin{align*}
+		e_{\lambda_1}=\begin{bmatrix}0.5\\0.5\\0.5\\0.5\end{bmatrix};~e_{\lambda_2}=\begin{bmatrix}-0.3124\\-0.2947\\-0.2583\\0.8654\end{bmatrix};~e_{\lambda_3}=\begin{bmatrix}0.6989\\-0.0176\\-0.7143\\0.0331\end{bmatrix};~e_{\lambda_4}=\begin{bmatrix}0.405\\-0.8141\\0.416\\-0.0069\end{bmatrix}
+	\end{align*}
 \end{solution}
 
 \part[2] Select the eigenvector corresponding to the smallest eigenvalue, normalize the eigenvector so that it is unit-norm, and check if applying a threshold on it will reveal the two clusters? 
 \begin{solution}
+	The normalized eigenvector corresponding to the smallest eigenvalue($\lambda_1$) is 
+	\[
+		e_{\lambda_1}=\begin{bmatrix}0.5\\0.5\\0.5\\0.5\end{bmatrix}
+	\]
+	As we can see applying threshold will not reveal two clusters. 
 \end{solution}
 
 \part[2] Select the eigenvector corresponding to the second smallest eigenvalue of $L$, normalize this eigenvector, and check if choosing a threshold of 0.7 will reveal two similar clusters in the dataset? \\
 In the last two parts, provide the clusters obtained after performing spectral clustering and explain your reasoning for the cluster assignments based on the eigenvector and threshold.\newline
 \begin{solution}
+	The normalized eigenvector corresponding to the second minimum eigenvalue $(\lambda_2)$ is
+	\begin{align*}
+		e_{\lambda_2}=\begin{bmatrix}-0.3124\\-0.2947\\-0.2583\\0.8654\end{bmatrix}
+	\end{align*}
+	By selecting a threshold of $0.7$, data points 1, 2, and 3 are grouped into one cluster, while data point 4 forms a separate cluster.
 \end{solution}
 \end{parts}
 
 
 \question[4] {\sc [Spectral bounds]} Let $G$ be a simple undirected graph over $n$ nodes, with $d_i$ denoting the degree of the $i$th node. If the eigen values of the graph Laplacian $L$ of $G$ are ordered from the smallest to the largest (e.g., second smallest eigenvalue is $\lambda_2$), then show that $\lambda_2 \le \frac{n}{n-1} \bar{d} \le \lambda_n$. Here, $\bar{d} = \frac{1}{n} \sum_i d_i$ is the average degree of a node.\\
 (Hint: What is the sum of all eigenvalues of $L$ in terms of $\bar{d}$?)
-\begin{solution} 
+\begin{solution}
+	We know that
+	\[
+	\operatorname{tr}(L) = \sum_i \lambda_i = \sum_i d_i = n\bar{d}.
+	\]
+	Since $\lambda_1 = 0$, the average of the remaining eigenvalues $\lambda_2, \ldots, \lambda_n$ is
+	\[
+	\frac{1}{n-1} \sum_{i=2}^{n} \lambda_i = \frac{n}{n-1}\bar{d}.
+	\]
+	Because the eigenvalues are ordered, the average must lie between the smallest and largest among them, i.e.
+	\[
+	\lambda_2 \le \frac{1}{n-1}\sum_{i=2}^{n}\lambda_i \le \lambda_n.
+	\]
+	Substituting the expression for the average, we obtain
+	\[
+	\lambda_2 \le \frac{n}{n-1}\bar{d} \le \lambda_n.
+	\]
+	\qed
 \end{solution}
 
 
@@ -157,12 +248,34 @@ Consider a dataset of N points with each datapoint being a $D$-dimensional vecto
 Under the above assumptions, please attempt the following questions.
 
 \begin{parts}
-\part [3] Whereas $X$ is rectangular in general, $XX^T$ and $X^TX$ are square. Show that these two square matrices have the same set of non-zero eigenvalues. Further, argue briefy why these equal eigenvalues are all positive and $N$ in number, and derive the multiplicity of the zero eigenvalue for both these matrices.\\
+\part [3] Whereas $X$ is rectangular in general, $XX^T$ and $X^TX$ are square. Show that these two square matrices have the same set of non-zero eigenvalues. Further, argue briefly why these equal eigenvalues are all positive and $N$ in number, and derive the multiplicity of the zero eigenvalue for both these matrices.\\
 (Note: The square root of these equal positive eigenvalues $\{\lambda_i:=\sigma_i^2\}_{i=1,\ldots,N}$ are called the singular values $\{\sigma_i\}_{i=1,\ldots,N}$ of $X$.)
 \begin{solution}
+	Let $\lambda \ne 0$ and $y \in \mathbb{R}^N$ be an eigenvalue and eigenvector of $XX^T$, respectively. 
+	Similarly, let $\beta \ne 0$ and $z \in \mathbb{R}^D$ be an eigenvalue and eigenvector of $X^TX$, respectively. 
+	Then we have
+	\begin{align*}
+	XX^T y = \lambda y  \Rightarrow  y^T XX^T = \lambda y^T
+	\end{align*}
+	Also,
+	\begin{align*}
+	X^T X z = \beta z
+	\end{align*}
+	Premultiplying the second equation by $y^T X$, we obtain
+	\begin{align*}
+		y^T X X^T X z &= \beta y^T X z\\
+		\Rightarrow\lambda y^T X z &= \beta y^T X z\quad[\because XX^T y = \lambda y]\\
+		\Rightarrow \lambda &= \beta
+	\end{align*}
+	Hence, these two square matrices have same set of non zero eigenvalues.\\
+	Moreover we can also write 
+	\begin{align*}
+		\lambda=\frac{\norm{X^Ty}^{2}}{\norm{y}^{2}}>0;\quad\beta=\frac{\norm{Xz}^{2}}{\norm{z}^{2}}>0
+	\end{align*}
 \end{solution}
 
-\part [3] We can choose the set of eigenvectors $\{u_i\}_{i-=1,\ldots,N}$ of $XX^T$ to be an orthonormal set and similarly we can choose an orthonormal set of eigenvectors $\{v_j\}_{j=1,\ldots,D}$ for $X^TX$. Briefly argue why this orthonormal choice of eigenvectors is possible. Can you choose $\{v_i\}$ such that each $v_i$ can be computed easily from $u_i$ and $X$ alone (i.e., without having to do an eigenvalue decomposition of the large matrix $X^TX$; assume $i=1,\ldots,N$ so that $\lambda_i > 0$ and $\sigma_i > 0$)?\\
+
+\part [3] We can choose the set of eigenvectors $\{u_i\}_{i=1,\ldots,N}$ of $XX^T$ to be an orthonormal set and similarly we can choose an orthonormal set of eigenvectors $\{v_j\}_{j=1,\ldots,D}$ for $X^TX$. Briefly argue why this orthonormal choice of eigenvectors is possible. Can you choose $\{v_i\}$ such that each $v_i$ can be computed easily from $u_i$ and $X$ alone (i.e., without having to do an eigenvalue decomposition of the large matrix $X^TX$; assume $i=1,\ldots,N$ so that $\lambda_i > 0$ and $\sigma_i > 0$)?\\
 (Note: $\{u_i\},\{v_i\}$ are respectively called the left,right singular vectors of $X$, and computing them along with the corresponding singular values is called the Singular Value Decomposition or SVD of $X$.) 
 \begin{solution}
 \end{solution}
@@ -197,14 +310,78 @@ Consider the following dataset $D$ of 8 datapoints:
 \begin{parts}
 \part[2] What is the $xy$ coordinate for the datapoint reconstructed (approximated) from data pt.~\#2 (x=20.82, y=24.03) using the first principal component of $D$? What is the reconstruction error of this $PC1$-based approximation of data pt.~\#2? 
 \begin{solution}
+	The mean of the given data points is
+	\begin{align*}
+		\bar{x}=\begin{bmatrix}
+			9.29375\\
+			9.685
+		\end{bmatrix}
+	\end{align*}
+	And as we know the reconstruction of a data point($x_2$) using PC1 is given by
+	\begin{align*}
+		\tilde{x}_2&=\bar{x}+\left(\left(x_2-\bar{x}\right)^TPC_1\right)PC1\\
+		&=\begin{bmatrix}
+			9.29375\\
+			9.685
+		\end{bmatrix}+\left(\left(\begin{bmatrix}
+		20.82\\
+		24.03
+		\end{bmatrix}-\begin{bmatrix}
+		9.29375\\
+		9.685
+		\end{bmatrix}\right)^T\begin{bmatrix}
+		-0.69\\
+		-0.72
+		\end{bmatrix}\right)\begin{bmatrix}
+		-0.69\\
+		-0.72
+		\end{bmatrix}\\
+		&=\begin{bmatrix}
+			22.456439\\
+			22.847689
+		\end{bmatrix}
+	\end{align*}
+	Now, the reconstruction error of this $PC1$-based approximation of data pt. \#2 is given by
+	\begin{align*}
+		\norm{\tilde{x}_2-x_2}_2^2=\norm{\begin{bmatrix}
+			22.456439\\
+			22.847689
+		\end{bmatrix}-\begin{bmatrix}
+		20.82\\
+		24.03
+		\end{bmatrix}}^2\approx4.076
+	\end{align*}
 \end{solution}
 
 \part[2] What is the second principal component of the dataset $D$?  How will you represent data pt.~\#2 as a linear combination of the two principal components? What is the reconstruction error of this $(PC1,PC2)$-based representation of data pt.~\#2?
 \begin{solution}
+	The second principle component PC2 of the dataset $D$ is $\begin{bmatrix}0.72\\-0.69\end{bmatrix}$ as $\text{PC1}\perp\text{PC2}$
+	Now, representing the data pt. $\#2$ as a as a linear combination of the two principal component we get
+	\begin{align*}
+		\tilde{x}_2 = \bar{x}+\left(\left(x_2-\bar{x}\right)^TPC1\right)PC1+\left(\left(x_2-\bar{x}\right)^TPC2\right)PC2=x_2
+	\end{align*}
+	so, the reconstruction error is $0.$
 \end{solution}
 
 \part[2] Let $D'$ be the mean-subtracted version of $D$. What will be the first and second principal components $PC1$ and $PC2$ of $D'$? What is the $xy$ coordinate of data pt.~\#2 and its $PC1$-based reconstruction in $D'$? What is the associated reconstruction/approximation error of data pt.~\#2?
 \begin{solution}
+	Since the covariance matrix already mean centered so the PC1 and PC2 will be same with the dataset D'.The xy coordinate of data pt. \#2 in dataset D' is 
+	\begin{align*}
+		x_2^{'}=x_{2}-\bar{x}=\begin{bmatrix}
+			11.526\\
+			14.345
+		\end{bmatrix}
+	\end{align*}
+	Now, the PC1-based reconstruction in D' is 
+	\begin{align*}
+		\tilde{x}^{'}=\left({x_2^{'}}^T PC1\right)PC1=-18.28PC1=\begin{bmatrix}
+			12.614\\12.163
+		\end{bmatrix}
+	\end{align*}
+	The reconstruction error of data pt.\#2 is 
+	\begin{align*}
+		\norm{x_2^{'}-\tilde{x}^{'}}^2\approx2.58
+	\end{align*}
 \end{solution}
 
 \part[2] Let $D''$ be a dataset extended from $D$ by adding a third feature $z$ to each datapoint. It so happens that this third feature is a constant value ($3.5$) across all $8$ datapoints. Then, what  will be the three principal components of $D''$, and what is the $xyz$ coordinate of the $PC1$-based reconstruction of data pt.~\#2 in $D''$ and the associated reconstruction error? 
@@ -224,13 +401,162 @@ We will consider two tasks involving a dataset of $n$ points, denoted as $D=\{(x
 \part[1] The two minimization problems in parts (b) and (c) below are each related to which ML task seen in class?\\
 (Note: You can use the matrix-vector notation formulas relevant to these ML tasks to solve parts (b) and (c) reasonably quickly.) 
 \begin{solution} 
+	Indeed. The problem in part (b) can be seen as a least square linear regression problem. And in part (c) the minimization problem can be see as orthonormal regression or 2D case of PCA.
 \end{solution}
 
 \part[2] Find the line $y=wx + b$ that minimizes the squared vertical distance of the datapoints to the line (i.e., the squared errors in $y$). Specifically, find the $w,b$ that minimizes 
 \[\sum_{i=1}^n ((w x_i + b)-y_i)^2.\] 
 Express the optimal $w,b$ in the simplest form possible in terms of $\bar{x}, \bar{y}, S_{xx}, S_{yy}$, $S_{xy}$, etc.  
-\begin{solution} 
+\begin{solution}
+	Let 
+	\[
+	X = 
+	\begin{bmatrix}
+		x_1 \\ x_2 \\ \vdots \\ x_n
+	\end{bmatrix}, \quad 
+	Y =
+	\begin{bmatrix}
+		y_1 \\ y_2 \\ \vdots \\ y_n
+	\end{bmatrix}, \quad
+	\Phi(X) =
+	\begin{bmatrix}
+		1 & x_1 \\
+		1 & x_2 \\
+		\vdots & \vdots \\
+		1 & x_n
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		\,| & |\,\\
+		\mathbbm{1} & X\\
+		\,| & |\,
+	\end{bmatrix}, \quad
+	W =
+	\begin{bmatrix}
+		b \\ w
+	\end{bmatrix}
+	\]
+	
+	Then, the objective function can be written as
+	\[
+	\sum_{i=1}^n \big( (w x_i + b) - y_i \big)^2
+	= \| \Phi W - Y \|^2	\]
+	
+	The first-order necessary condition gives
+	\[
+	W = (\Phi^{T}\Phi)^{-1}\Phi^{T}Y
+	\]
+	Expanding each term:
+	\[
+	W 
+	= 
+	\left(
+	\begin{bmatrix}
+		-\mathbbm{1}^T-\\
+		-X^T-
+	\end{bmatrix}
+	\begin{bmatrix}
+		\,| & |\,\\
+		\mathbbm{1} & X\\
+		\,| & |\,
+	\end{bmatrix}
+	\right)^{-1}
+	\begin{bmatrix}
+		-\mathbbm{1}^T-\\
+		-X^T-
+	\end{bmatrix}Y
+	\Rightarrow
+	\begin{bmatrix}
+		b\\w
+	\end{bmatrix}
+	=
+	\left(
+	\begin{bmatrix}
+		n & \mathbbm{1}^T X\\
+		X^T \mathbbm{1} & X^T X
+	\end{bmatrix}
+	\right)^{-1}
+	\begin{bmatrix}
+		\mathbbm{1}^T Y\\
+		X^T Y
+	\end{bmatrix}
+	\]
+
+	Now, simplifying the matrix entries:
+	\[
+	\mathbbm{1}^T X = X^T \mathbbm{1} = \sum_{i=1}^n x_i = n\bar{x}, 
+	\quad 
+	\mathbbm{1}^T Y = \sum_{i=1}^n y_i = n\bar{y}
+	\]
+	
+	\[
+	X^T X = \sum_{i=1}^n x_i^2 
+	= \sum_{i=1}^n (x_i - \bar{x})^2 + 2\sum_{i=1}^n x_i \bar{x} - \sum_{i=1}^n \bar{x}^2
+	= S_{xx} + n\bar{x}^2	\]
+	
+	\[
+	X^T Y = \sum_{i=1}^n x_i y_i 
+	= \sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})
+	+ \bar{x}\sum_{i=1}^n y_i
+	+ \bar{y}\sum_{i=1}^n x_i
+	- \sum_{i=1}^n \bar{x}\bar{y}
+	= S_{xy} + n\bar{x}\bar{y}
+	\]
+	
+	Substituting these back, we get:
+	\[
+	\begin{bmatrix}
+		b\\w
+	\end{bmatrix}
+	=
+	\left(
+	\begin{bmatrix}
+		n & n\bar{x}\\
+		n\bar{x} & S_{xx}+n\bar{x}^2
+	\end{bmatrix}
+	\right)^{-1}
+	\begin{bmatrix}
+		n\bar{y}\\
+		S_{xy}+n\bar{x}\bar{y}
+	\end{bmatrix}
+	\]
+	
+	Simplifying:
+	\[
+	\begin{bmatrix}
+		b\\w
+	\end{bmatrix}
+	=
+	\frac{1}{nS_{xx}}
+	\begin{bmatrix}
+		S_{xx}+n\bar{x}^2 & -n\bar{x}\\
+		-n\bar{x} & n
+	\end{bmatrix}
+	\begin{bmatrix}
+		n\bar{y}\\
+		S_{xy}+n\bar{x}\bar{y}
+	\end{bmatrix}
+	=
+	\frac{1}{nS_{xx}}
+	\begin{bmatrix}
+		n\bar{y}S_{xx}-n\bar{x}S_{xy}\\
+		nS_{xy}
+	\end{bmatrix}
+	\]
+	
+	Finally,
+	\begin{align*}
+		\begin{bmatrix}
+			b\\w
+		\end{bmatrix}
+		=
+		\begin{bmatrix}
+			\bar{y} - \dfrac{S_{xy}}{S_{xx}}\bar{x}\\[6pt]
+			\dfrac{S_{xy}}{S_{xx}}
+		\end{bmatrix}
+	\end{align*}
 \end{solution}
+
     
 \part[2] Find the line $y=mx + c$ that minimizes the squared perpendicular distance (i.e., shortest distance) of the datapoints to the line. Specifically, find the $m,c$ that minimizes 
 \[\sum_{i=1}^n \frac{((m x_i + c) - y_i)^2}{m^2 + 1}.\]
