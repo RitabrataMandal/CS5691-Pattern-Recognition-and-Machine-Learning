@@ -602,21 +602,56 @@ Please use the template.ipynb file in the \href{https://drive.google.com/drive/f
 \begin{parts}
 \part[5] Run the PCA algorithm on the given dataset. Plot the cumulative percentage variance explained by the principal components. Report the minimum number of principal components that contribute to at least 90\% of the variance in the dataset.
 \begin{solution}
+	As we see in Figure \ref{fig:explained_Variance} minimum 21 principle components are needed to capture $90\%$ of the variance of the dataset.
+	\begin{figure}[H]
+		\centering
+		\resizebox{.8\linewidth}{!}{
+			\centering
+			\includegraphics[width=\linewidth]{plots/explained_variance.pdf}
+		}
+		\caption{Explained Variance}
+		\label{fig:explained_Variance}
+	\end{figure}
 \end{solution}
 
 \part[5] Perform reconstruction of the dataset using a small number of components: $M \in \{2,4,8,16\}$. Report the Mean Square Error (MSE) between the original data and reconstructed data, and interpret the optimal dimension $\widehat{d}$ based on the MSE values.
-\begin{solution}
+\begin{solution} 
+	The reconstruction error  is as follows:\\
+	
+	\begin{center}
+		\begin{tabular}{|c|c|}
+			\hline
+			M & MSE\\
+			\hline
+			2 & 13.421012\\\hline
+			4 & 13.421012\\\hline
+			8 & 6.121793\\\hline
+			16 &  2.827183\\\hline
+		\end{tabular}
+	\end{center}
+	
+	So for $M\in\{2,4,8,16\}$ the optimal dimension $\hat{d}=16$ as the MSE is smallest among all the four cases.
 \end{solution}
 
 \part[5] Let's now apply the same code that you've written above to analyze images to understand text. Large language models (LLMs) typically analyze text by representing words as vectors, also known as embeddings. You are provided with 768-dimensional embeddings (extracted from a LLM called BERT) of 10 words in the \href{https://drive.google.com/drive/folders/1yshmnkWoALf2ZwqgZqWwXJk2W5_XuCLG?usp=sharing}{same folder}. Apply your PCA code with $M=2$ principal components on these embeddings to visualize the 10 words in 2-D (you are allowed to use python plotting functions for this task). Report how much percentage of variation is captured by these two principal components. What does this (2D scatterplot) visualization tell you about the embeddings of related vs.~unrelated words? 
 \begin{solution}
+	The $M=2$ principle components captures $45.47\%$ variation. Figure \ref{fig:word_embeddings_pca} shows the 2D scatter plot of word embedding. From the plot I see that the humans like father, mother, woman, man, queen and king are in the left part of the plot where as foods and animals in the right part of the plot. Moreover the plot shows tight groupings of (king, queen), (man, woman), (father, mother) and (apple, banana). Which implies the PC2 captures gender or hierarchy.
+	\begin{figure}[H]
+		\centering
+		\resizebox{.8\linewidth}{!}{
+			\centering
+			\includegraphics[width=\linewidth]{plots/word_embeddings_pca.pdf}
+		}
+		\caption{2D Visualization of Word Embeddings using PCA}
+		\label{fig:word_embeddings_pca}
+	\end{figure}
 \end{solution}
 \end{parts}
 
 
 \question
 {\sc [Self Declaration]}\\
-I,\underline{Ritabrata Mandal}, swear on my honour that I have prepared and written the answers for this assignment and associated code by myself and have not copied it from the internet, any LLM's output, or other students.
+I, \underline{Ritabrata Mandal}, swear on my honour that I have prepared and written the answers for this assignment and associated code by myself and have not copied it from the internet, any LLM's output, or other students.
 \end{questions}
 
 
