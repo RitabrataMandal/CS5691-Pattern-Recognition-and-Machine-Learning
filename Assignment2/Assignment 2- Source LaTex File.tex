@@ -210,7 +210,7 @@ In the last two parts, provide the clusters obtained after performing spectral c
 	\begin{align*}
 		e_{\lambda_2}=\begin{bmatrix}0.6567\\0.2623\\-0.2623\\-0.6567\end{bmatrix}
 	\end{align*}
-	By selecting a threshold of $0.7$, data points 1, 2, 3 and 4 are grouped into one cluster.
+	By selecting a threshold of $0.7$, data points 1, 2, 3 and 4 are grouped into one cluster. But if we choose $0$ as a threshold then eigenvector  $e_{\lambda_2}$ cluster data points 1 \& 2 in one cluster and data points 3 \& 4 in another cluster.
 \end{solution}
 \end{parts}
 
@@ -219,21 +219,21 @@ In the last two parts, provide the clusters obtained after performing spectral c
 (Hint: What is the sum of all eigenvalues of $L$ in terms of $\bar{d}$?)
 \begin{solution}
 	We know that
-	\[
-	\operatorname{tr}(L) = \sum_i \lambda_i = \sum_i d_i = n\bar{d}.
-	\]
+	\begin{align*}
+		\operatorname{tr}(L) = \sum_i \lambda_i = \sum_i d_i = n\bar{d}
+	\end{align*}
 	Since $\lambda_1 = 0$, the average of the remaining eigenvalues $\lambda_2, \ldots, \lambda_n$ is
-	\[
-	\frac{1}{n-1} \sum_{i=2}^{n} \lambda_i = \frac{n}{n-1}\bar{d}.
-	\]
+	\begin{align*}
+		\frac{1}{n-1} \sum_{i=2}^{n} \lambda_i = \frac{n}{n-1}\bar{d}
+	\end{align*}
 	Because the eigenvalues are ordered, the average must lie between the smallest and largest among them, i.e.
-	\[
-	\lambda_2 \le \frac{1}{n-1}\sum_{i=2}^{n}\lambda_i \le \lambda_n.
-	\]
-	Substituting the expression for the average, we obtain
-	\[
-	\lambda_2 \le \frac{n}{n-1}\bar{d} \le \lambda_n.
-	\]
+	\begin{align*}
+		\lambda_2 \le \frac{1}{n-1}\sum_{i=2}^{n}\lambda_i \le \lambda_n
+	\end{align*}
+	Substituting the expression for the average, we get
+	\begin{align*}
+		\lambda_2 \le \frac{n}{n-1}\bar{d} \le \lambda_n\quad\qed
+	\end{align*}
 \end{solution}
 
 
@@ -260,7 +260,7 @@ Under the above assumptions, please attempt the following questions.
 	\begin{align*}
 	X^T X z = \beta z
 	\end{align*}
-	Premultiplying the second equation by $y^T X$, we obtain
+	Premultiplying the second equation by $y^T X$, we get
 	\begin{align*}
 		y^T X X^T X z &= \beta y^T X z\\
 		\Rightarrow\lambda y^T X z &= \beta y^T X z\quad[\because XX^T y = \lambda y]\\
@@ -284,11 +284,44 @@ Under the above assumptions, please attempt the following questions.
 \part [3] We can choose the set of eigenvectors $\{u_i\}_{i=1,\ldots,N}$ of $XX^T$ to be an orthonormal set and similarly we can choose an orthonormal set of eigenvectors $\{v_j\}_{j=1,\ldots,D}$ for $X^TX$. Briefly argue why this orthonormal choice of eigenvectors is possible. Can you choose $\{v_i\}$ such that each $v_i$ can be computed easily from $u_i$ and $X$ alone (i.e., without having to do an eigenvalue decomposition of the large matrix $X^TX$; assume $i=1,\ldots,N$ so that $\lambda_i > 0$ and $\sigma_i > 0$)?\\
 (Note: $\{u_i\},\{v_i\}$ are respectively called the left,right singular vectors of $X$, and computing them along with the corresponding singular values is called the Singular Value Decomposition or SVD of $X$.) 
 \begin{solution}
-	
+	As $XX^T$ and $X^TX$ are symmetric matrices. By Spectral Theorem we conclude that it will have orthonormal set of eigenvectors.\\
+	Also given in question that $\{u_i\}_{i=1,\cdots, N}$ are the orthonormal eigenvectors of $XX^T$ and $\{v_i\}_{i=1,\cdots, D}$ are the orthonormal eigenvectors of $X^TX$. Now we can write
+	\begin{align*}
+		XX^Tu_i=\lambda_iu_i\quad\forall~i\in\{1,2,\cdots,N\}
+	\end{align*}
+	By premultiplying with $X^T$ we get
+	\begin{align*}
+		X^TXX^Tu_i=\lambda_iX^Tu_i\Rightarrow X^TX \tilde{v}_i=\lambda_i\tilde{v}_i \quad\forall~i\in\{1,2,\cdots,N\}
+	\end{align*}
+	where $\tilde{v}_i=X^Tu_i \quad\forall~i\in\{1,2,\cdots,N\}$\\
+	Now by normalizing we write 
+	\begin{align*}
+		v_i = \frac{\tilde{v}_i}{\norm{v_i}}=\frac{X^Tu_i}{\sqrt{u_i^TXX^Tu_i}}=\frac{X^Tu_i}{\sqrt{\lambda_i u_i^Tu_i}}=\frac{X^Tu_i}{\sqrt{\lambda_i}}\quad\forall~i\in\{1,2,\cdots,N\}
+	\end{align*}
+	Hence, we can easily compute $v_i$ from $u_i$ and $X$ alone.
 \end{solution}
 
 \part [4] Applying PCA on the matrix $X$ would be computationally difficult as it would involve finding the eigenvectors of $S=\frac{1}{N} X^T X$, which would take $O(D^3)$ time. Using answer to the last question above, can you reduce this time complexity to $O(N^3)$? Please provide the exact steps involved, including the exact formula for computing the normalized (unit-length) eigenvectors of $S$.
 \begin{solution}
+	Below are the given steps involved to compute the eigenvalues of $S$
+	\begin{enumerate}[\textbf{Step-\arabic*:}]
+		\item We compute the smaller matrix
+		\begin{align*}
+			S^{'}_{N\times N}=\frac{1}{N}X_{N\times D}X_{D\times N}^T
+		\end{align*} 
+		this step has a time complexity of $O(N^2D)$
+		\item This step finds the eigenvalues $\lambda_i$ and the corresponding normalized eigenvectors $u_i$ that satisfies 
+		\begin{align*}
+			S^{'}u_i=\lambda_i u_i
+		\end{align*}
+		this step has a time complexity of $O(N^3)$
+		\item Now computing the orthonormal eigenvectors of the matrix $S$ as follows(as computed before)
+		\begin{align*}
+			v_i=\frac{X^Tu_i}{\sqrt{\lambda_i}}
+		\end{align*}
+		this step has a time complexity of $O(ND)$
+	\end{enumerate}
+	Hence, the overall complexity is $O(N^3+N^2D+ND)=O(N^3)$. This is a massive improvement over the original $O(D^3).$
 \end{solution}
 \end{parts}
 
@@ -561,27 +594,24 @@ Express the optimal $w,b$ in the simplest form possible in terms of $\bar{x}, \b
 	= \sum_{i=1}^n (x_i - \bar{x})^2 + 2\sum_{i=1}^n x_i \bar{x} - \sum_{i=1}^n \bar{x}^2
 	= S_{xx} + n\bar{x}^2	\]
 	
-	\[
-	X^T Y = \sum_{i=1}^n x_i y_i 
-	= \sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})
-	+ \bar{x}\sum_{i=1}^n y_i
-	+ \bar{y}\sum_{i=1}^n x_i
-	- \sum_{i=1}^n \bar{x}\bar{y}
-	= S_{xy} + n\bar{x}\bar{y}
-	\]
-	
+	\begin{align*}
+		X^T Y = \sum_{i=1}^n x_i y_i 
+		= \sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})
+		+ \bar{x}\sum_{i=1}^n y_i
+		+ \bar{y}\sum_{i=1}^n x_i
+		- \sum_{i=1}^n \bar{x}\bar{y}
+		= S_{xy} + n\bar{x}\bar{y}
+	\end{align*}	
 	Substituting these back, we get
 	\[
 	\begin{bmatrix}
 		b\\w
 	\end{bmatrix}
 	=
-	\left(
 	\begin{bmatrix}
 		n & n\bar{x}\\
 		n\bar{x} & S_{xx}+n\bar{x}^2
-	\end{bmatrix}
-	\right)^{-1}
+	\end{bmatrix}^{-1}
 	\begin{bmatrix}
 		n\bar{y}\\
 		S_{xy}+n\bar{x}\bar{y}
@@ -649,14 +679,14 @@ Express the optimal $m,c$ in the simplest form possible in terms of $\bar{x}, \b
 		\end{align*}
 		Now checking second order sufficient condition we get 
 		\begin{align*}
-			\frac{\partial ^2 L}{\partial ^2 m} \Bigg{|}_{m_{+}}= \frac{\sqrt{(S_{xx} - S_{yy})^2 + 4S_{xy}^2}}{2S_{xy}}>0;\quad\frac{\partial ^2 L}{\partial ^2 m} \Bigg{|}_{m_{-}} = -\frac{\sqrt{(S_{xx} - S_{yy})^2 + 4S_{xy}^2}}{2S_{xy}}<0
+			\frac{\partial ^2 L}{\partial ^2 m} \Bigg{|}_{m_{+}}=\sqrt{(S_{xx} - S_{yy})^2 + 4S_{xy}^2}>0;\quad\frac{\partial ^2 L}{\partial ^2 m} \Bigg{|}_{m_{-}} = -\sqrt{(S_{xx} - S_{yy})^2 + 4S_{xy}^2}<0
 		\end{align*}
 		Hence, optimal values are
 		\begin{align*}
 			m &= \frac{(S_{yy} - S_{xx}) + \sqrt{(S_{xx} - S_{yy})^2 + 4S_{xy}^2}}{2S_{xy}} \\
 			c & = \bar{y}-m\bar{x}
 		\end{align*} 
-		such that the objective is minimum.
+		such that the objective is minimized.
 \end{solution}
 
 \part[1] Looking at the expressions you've derived for the above two parts, give a small example dataset where the optimizer $(w,b)$ is identical to the optimizer $(m,c)$, and another dataset/scenario where these two optimizers are quite different. 
