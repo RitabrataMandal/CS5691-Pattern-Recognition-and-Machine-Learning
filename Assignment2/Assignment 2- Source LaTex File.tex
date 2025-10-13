@@ -130,23 +130,23 @@ Perform the following steps of spectral clustering, and report the output from e
 	\end{align*}
 	Now we can write the similarity matrix $A$ as
 	\begin{align*}
+%		A=\begin{bmatrix}
+%			s(x_1,x_1)&s(x_1,x_2)&s(x_1,x_3)&s(x_1,x_4)\\
+%			s(x_2,x_1)&s(x_2,x_2)&s(x_2,x_3)&s(x_2,x_4)\\
+%			s(x_3,x_1)&s(x_3,x_2)&s(x_3,x_3)&s(x_3,x_4)\\
+%			s(x_4,x_1)&s(x_4,x_2)&s(x_4,x_3)&s(x_4,x_4)
+%		\end{bmatrix}&=
 		A=\begin{bmatrix}
-			s(x_1,x_1)&s(x_1,x_2)&s(x_1,x_3)&s(x_1,x_4)\\
-			s(x_2,x_1)&s(x_2,x_2)&s(x_2,x_3)&s(x_2,x_4)\\
-			s(x_3,x_1)&s(x_3,x_2)&s(x_3,x_3)&s(x_3,x_4)\\
-			s(x_4,x_1)&s(x_4,x_2)&s(x_4,x_3)&s(x_4,x_4)
-		\end{bmatrix}&=
-		\begin{bmatrix}
 			1&e^{-1}&e^{-4}&e^{-9}\\
 			e^{-1}&1&e^{-1}&e^{-4}\\
 			e^{-4}&e^{-1}&1&e^{-1}\\
 			e^{-9}&e^{-4}&e^{-1}&1
-		\end{bmatrix}\\
-		&\approx\begin{bmatrix}
-		1 & 0.3679 & 0.0183 & 0\\
-		0.3679 & 1 & 0.3679 & 0.0001\\
-		0.0183 & 0.3679 & 1 & 0.0183\\
-		0 & 0.0001 & 0.0183 & 1 
+		\end{bmatrix}
+		\approx\begin{bmatrix}
+		1 & 0.3679 & 0.0183 & 0.0001\\
+		0.3679 & 1 & 0.3679 & 0.0183\\
+		0.0183 & 0.3679 & 1 & 0.3679\\
+		0.0001 & 0.0183 & 0.3679 & 1 
 		\end{bmatrix}
 	\end{align*}
 \end{solution}
@@ -162,10 +162,10 @@ Perform the following steps of spectral clustering, and report the output from e
 %			0&0&0&1+e^{-1}+e^{-4}+e^{-9}
 %		\end{bmatrix}
 		D=\begin{bmatrix}
-			1.3862& 0 & 0 & 0\\
-			0 & 1.7359 & 0 & 0\\
-			0& 0 & 1.4045 &0\\
-			0&0&0&1.0184
+			1.3863& 0 & 0 & 0\\
+			0 & 1.7541 & 0 & 0\\
+			0 & 0 & 1.7541 &0\\
+			0 & 0 & 0 & 1.3863
 		\end{bmatrix}
 	\end{align*}	
 	Now we write the (unnormalized) Laplacian matrix $L$ as
@@ -177,20 +177,20 @@ Perform the following steps of spectral clustering, and report the output from e
 %			-e^{-9}&-e^{-4}&-e^{-1}&e^{-1}+e^{-4}+e^{-9}
 %		\end{bmatrix}
 		L=D-A=\begin{bmatrix}
-			0.3867 & -0.3679 & -0.0183 & 0\\
-			-0.3679 & 0.7359 & -0.3679 & -0.0001\\
-			-0.0183 & -0.3679 & 0.4045 & -0.0183\\
-			0 & -0.0001 & -0.0183 & 0.0184 
+			0.3863 & -0.3679 & -0.0183 & -0.0001\\
+			-0.3679 & 0.7541 & -0.3679 & -0.0183\\
+			-0.0183 & -0.3679 & 0.7541 & -0.3679\\
+			-0.0001 & -0.0183 & -0.3679 & 0.3863 
 		\end{bmatrix}
 	\end{align*}
 \end{solution}
 
 \part[2] Compute the eigenvalues and eigenvectors of $L$.
 \begin{solution}
-	The eigenvalues of $L$ are \[\lambda_1=0,~\lambda_2=0.0239,~\lambda_3=0.4142,~\lambda_4=1.1069\]
+	The eigenvalues of $L$ are \[\lambda_1=0,~\lambda_2=0.2468,~\lambda_3=0.7724,~\lambda_4=1.2616\]
 	The eigenvectors corresponding to the eigenvectors are
 	\begin{align*}
-		e_{\lambda_1}=\begin{bmatrix}0.5\\0.5\\0.5\\0.5\end{bmatrix};~e_{\lambda_2}=\begin{bmatrix}-0.3124\\-0.2947\\-0.2583\\0.8654\end{bmatrix};~e_{\lambda_3}=\begin{bmatrix}0.6989\\-0.0176\\-0.7143\\0.0331\end{bmatrix};~e_{\lambda_4}=\begin{bmatrix}0.405\\-0.8141\\0.416\\-0.0069\end{bmatrix}
+		e_{\lambda_1}=\begin{bmatrix}0.5\\0.5\\0.5\\0.5\end{bmatrix};~e_{\lambda_2}=\begin{bmatrix}0.6567\\0.2623\\-0.2623\\-0.6567\end{bmatrix};~e_{\lambda_3}=\begin{bmatrix}0.5\\-0.5\\-0.5\\0.5\end{bmatrix};~e_{\lambda_4}=\begin{bmatrix}-0.2623\\0.6567\\-0.6567\\0.2623\end{bmatrix}
 	\end{align*}
 \end{solution}
 
@@ -208,9 +208,9 @@ In the last two parts, provide the clusters obtained after performing spectral c
 \begin{solution}
 	The normalized eigenvector corresponding to the second minimum eigenvalue $(\lambda_2)$ is
 	\begin{align*}
-		e_{\lambda_2}=\begin{bmatrix}-0.3124\\-0.2947\\-0.2583\\0.8654\end{bmatrix}
+		e_{\lambda_2}=\begin{bmatrix}0.6567\\0.2623\\-0.2623\\-0.6567\end{bmatrix}
 	\end{align*}
-	By selecting a threshold of $0.7$, data points 1, 2, and 3 are grouped into one cluster, while data point 4 forms a separate cluster.
+	By selecting a threshold of $0.7$, data points 1, 2, 3 and 4 are grouped into one cluster.
 \end{solution}
 \end{parts}
 
@@ -234,7 +234,6 @@ In the last two parts, provide the clusters obtained after performing spectral c
 	\[
 	\lambda_2 \le \frac{n}{n-1}\bar{d} \le \lambda_n.
 	\]
-	\qed
 \end{solution}
 
 
@@ -272,12 +271,20 @@ Under the above assumptions, please attempt the following questions.
 	\begin{align*}
 		\lambda=\frac{\norm{X^Ty}^{2}}{\norm{y}^{2}}>0;\quad\beta=\frac{\norm{Xz}^{2}}{\norm{z}^{2}}>0
 	\end{align*}
+	all the eigenvalues are all positive.\\
+	As the $\operatorname{rank}(X)=N$, we can write 
+	\begin{align*}
+		\operatorname{rank}(XX^T)&=N=\operatorname{rank}(X^TX)\\
+		\Rightarrow\operatorname{nullity}(XX^T)&=0;\quad\operatorname{nullity}(X^TX)=D-N~~[\because \text{By rank-nullity theorem}]
+	\end{align*}
+	so, for $XX^T$ the multiplicity of eigenvalue $0$ is zero and for $X^TX$ the multiplicity is $D-N$ 
 \end{solution}
 
 
 \part [3] We can choose the set of eigenvectors $\{u_i\}_{i=1,\ldots,N}$ of $XX^T$ to be an orthonormal set and similarly we can choose an orthonormal set of eigenvectors $\{v_j\}_{j=1,\ldots,D}$ for $X^TX$. Briefly argue why this orthonormal choice of eigenvectors is possible. Can you choose $\{v_i\}$ such that each $v_i$ can be computed easily from $u_i$ and $X$ alone (i.e., without having to do an eigenvalue decomposition of the large matrix $X^TX$; assume $i=1,\ldots,N$ so that $\lambda_i > 0$ and $\sigma_i > 0$)?\\
 (Note: $\{u_i\},\{v_i\}$ are respectively called the left,right singular vectors of $X$, and computing them along with the corresponding singular values is called the Singular Value Decomposition or SVD of $X$.) 
 \begin{solution}
+	
 \end{solution}
 
 \part [4] Applying PCA on the matrix $X$ would be computationally difficult as it would involve finding the eigenvectors of $S=\frac{1}{N} X^T X$, which would take $O(D^3)$ time. Using answer to the last question above, can you reduce this time complexity to $O(N^3)$? Please provide the exact steps involved, including the exact formula for computing the normalized (unit-length) eigenvectors of $S$.
@@ -337,26 +344,26 @@ Consider the following dataset $D$ of 8 datapoints:
 		-0.72
 		\end{bmatrix}\\
 		&=\begin{bmatrix}
-			22.456439\\
-			22.847689
+			21.908\\
+			22.8477
 		\end{bmatrix}
 	\end{align*}
 	Now, the reconstruction error of this $PC1$-based approximation of data pt. \#2 is given by
 	\begin{align*}
 		\norm{\tilde{x}_2-x_2}_2^2=\norm{\begin{bmatrix}
-			22.456439\\
-			22.847689
+			21.908\\
+			22.8477
 		\end{bmatrix}-\begin{bmatrix}
 		20.82\\
 		24.03
-		\end{bmatrix}}^2\approx4.076
+		\end{bmatrix}}^2\approx2.5816
 	\end{align*}
 \end{solution}
 
 \part[2] What is the second principal component of the dataset $D$?  How will you represent data pt.~\#2 as a linear combination of the two principal components? What is the reconstruction error of this $(PC1,PC2)$-based representation of data pt.~\#2?
 \begin{solution}
 	The second principle component PC2 of the dataset $D$ is $\begin{bmatrix}0.72\\-0.69\end{bmatrix}$ as $\text{PC1}\perp\text{PC2}$
-	Now, representing the data pt. $\#2$ as a as a linear combination of the two principal component we get
+	Now, representing the data pt. $\#2$ as a linear combination of the two principal component we get
 	\begin{align*}
 		\tilde{x}_2 = \bar{x}+\left(\left(x_2-\bar{x}\right)^TPC1\right)PC1+\left(\left(x_2-\bar{x}\right)^TPC2\right)PC2=x_2
 	\end{align*}
@@ -374,18 +381,78 @@ Consider the following dataset $D$ of 8 datapoints:
 	\end{align*}
 	Now, the PC1-based reconstruction in D' is 
 	\begin{align*}
-		\tilde{x}^{'}=\left({x_2^{'}}^T PC1\right)PC1=-18.28PC1=\begin{bmatrix}
-			12.614\\12.163
+		\tilde{x}^{'}_2=\left({x_2^{'}}^T PC1\right)PC1=-18.28PC1=\begin{bmatrix}
+			12.6142\\13.1647
 		\end{bmatrix}
 	\end{align*}
 	The reconstruction error of data pt.\#2 is 
 	\begin{align*}
-		\norm{x_2^{'}-\tilde{x}^{'}}^2\approx2.58
+		\norm{x_2^{'}-\tilde{x}^{'}_2}^2\approx2.5816
 	\end{align*}
 \end{solution}
 
 \part[2] Let $D''$ be a dataset extended from $D$ by adding a third feature $z$ to each datapoint. It so happens that this third feature is a constant value ($3.5$) across all $8$ datapoints. Then, what  will be the three principal components of $D''$, and what is the $xyz$ coordinate of the $PC1$-based reconstruction of data pt.~\#2 in $D''$ and the associated reconstruction error? 
 \begin{solution}
+	The three principle components of $D^{''}$ are
+	\begin{align*}
+		PC1=\begin{bmatrix}
+		-0.69\\
+		-0.72\\
+		0
+		\end{bmatrix};\quad
+		PC2=\begin{bmatrix}
+			0.72\\
+			-0.69\\
+			0
+		\end{bmatrix};\quad
+		PC3=\begin{bmatrix}
+			0\\
+			0\\
+			1
+		\end{bmatrix}
+	\end{align*}
+	Because the new feature is constant, so it has no variance and therefore contributes nothing to the first two principal directions; it simply becomes the third principal component, corresponding to the zero-variance direction.\\
+	PC1 based reconstruction of data pt. $\#2$ in $D^{''}$ is
+	\begin{align*}
+		\tilde{x}_2^{''}&=\bar{x}^{''}+\left(\left(x_2^{''}-\bar{x}^{''}\right)^TPC_1\right)PC1\\&=\begin{bmatrix}
+			9.29375\\
+			9.685\\
+			3.5
+		\end{bmatrix}+\left(\left(\begin{bmatrix}
+		21.908\\
+		22.8477\\
+		3.5
+		\end{bmatrix}-\begin{bmatrix}
+		9.29375\\
+		9.685\\
+		3.5
+		\end{bmatrix}\right)^T\begin{bmatrix}
+		-0.69\\
+		-0.72\\
+		0
+		\end{bmatrix}\right)\begin{bmatrix}
+		-0.69\\
+		-0.72\\
+		0
+		\end{bmatrix}\\
+		&=\begin{bmatrix}
+			21.908\\
+			22.8477\\
+			3.5
+		\end{bmatrix}
+	\end{align*}
+	Now, the reconstruction error of this $PC1$-based approximation of data pt. \#2 is given by
+	\begin{align*}
+		\norm{\tilde{x}_2^{''}-x_2^{''}}_2^2=\norm{\begin{bmatrix}
+				21.908\\
+				22.8477\\
+				3.5
+				\end{bmatrix}-\begin{bmatrix}
+				20.82\\
+				24.03\\
+				3.5
+		\end{bmatrix}}^2\approx2.5816
+	\end{align*}
 \end{solution}
 \end{parts}
 
@@ -446,7 +513,7 @@ Express the optimal $w,b$ in the simplest form possible in terms of $\bar{x}, \b
 	\[
 	W = (\Phi^{T}\Phi)^{-1}\Phi^{T}Y
 	\]
-	Expanding each term:
+	Expanding each term
 	\[
 	W 
 	= 
@@ -482,7 +549,7 @@ Express the optimal $w,b$ in the simplest form possible in terms of $\bar{x}, \b
 	\end{bmatrix}
 	\]
 
-	Now, simplifying the matrix entries:
+	Now, simplifying the matrix entries
 	\[
 	\mathbbm{1}^T X = X^T \mathbbm{1} = \sum_{i=1}^n x_i = n\bar{x}, 
 	\quad 
@@ -503,7 +570,7 @@ Express the optimal $w,b$ in the simplest form possible in terms of $\bar{x}, \b
 	= S_{xy} + n\bar{x}\bar{y}
 	\]
 	
-	Substituting these back, we get:
+	Substituting these back, we get
 	\[
 	\begin{bmatrix}
 		b\\w
@@ -521,7 +588,7 @@ Express the optimal $w,b$ in the simplest form possible in terms of $\bar{x}, \b
 	\end{bmatrix}
 	\]
 	
-	Simplifying:
+	Simplifying
 	\[
 	\begin{bmatrix}
 		b\\w
@@ -562,16 +629,98 @@ Express the optimal $w,b$ in the simplest form possible in terms of $\bar{x}, \b
 \[\sum_{i=1}^n \frac{((m x_i + c) - y_i)^2}{m^2 + 1}.\]
 Express the optimal $m,c$ in the simplest form possible in terms of $\bar{x}, \bar{y}, S_{xx}, S_{yy}$, $S_{xy}$, etc. 
 \begin{solution} 
-	
+		Writing the first order necessary condition w.r.to $c$ we get
+		\begin{align*}
+			\frac{\partial L}{\partial c} = \frac{\partial}{\partial c} \left(\sum_{i=1}^{n} \frac{(mx_i + c - y_i)^2}{m^2 + 1}   \right)&=0
+			\Rightarrow\frac{1}{m^2 + 1} \sum_{i=1}^{n} 2(mx_i + c - y_i)=0\\
+			\Rightarrow m\sum_{i=1}^{n} x_i + \sum_{i=1}^{n} c - \sum_{i=1}^{n} y_i &= 0 \Rightarrow mn\bar{x} + nc - n\bar{y}=0\\
+			\Rightarrow c&=\bar{y}-m\bar{x}
+		\end{align*}
+		We substitute $c = \bar{y} - m\bar{x}$ back into the objective function. We get
+		\begin{align*}
+			L(m)&= \sum_{i=1}^{n}\frac{(m(x_i - \bar{x}) - (y_i - \bar{y}))^2}{m^2 + 1}\\&=\frac{\sum_{i=1}^{n} \left[ m^2(x_i - \bar{x})^2 - 2m(x_i - \bar{x})(y_i - \bar{y}) + (y_i - \bar{y})^2 \right]}{m^2+1}\\
+			&=\frac{m^2S_{xx}-2mS_{xy}+S_{yy}}{m^2+1}
+		\end{align*}
+		Now writing first order condition w.r.to $m$ we get
+		\begin{align*}
+			&\frac{\partial L}{\partial m} =\frac{(2mS_{xx}-2S_{xy})(m^2+1)-2m(m^2S_{xx}-2mS_{xy}+S_{yy})}{(m^2+1)^2}=0\\
+			&\Rightarrow S_{xy}m^2 + (S_{xx} - S_{yy})m - S_{xy}=0\\
+			&\Rightarrow m = \frac{(S_{yy} - S_{xx}) \pm \sqrt{(S_{xx} - S_{yy})^2 + 4S_{xy}^2}}{2S_{xy}}
+		\end{align*}
+		Now checking second order sufficient condition we get 
+		\begin{align*}
+			\frac{\partial ^2 L}{\partial ^2 m} \Bigg{|}_{m_{+}}= \frac{\sqrt{(S_{xx} - S_{yy})^2 + 4S_{xy}^2}}{2S_{xy}}>0;\quad\frac{\partial ^2 L}{\partial ^2 m} \Bigg{|}_{m_{-}} = -\frac{\sqrt{(S_{xx} - S_{yy})^2 + 4S_{xy}^2}}{2S_{xy}}<0
+		\end{align*}
+		Hence, optimal values are
+		\begin{align*}
+			m &= \frac{(S_{yy} - S_{xx}) + \sqrt{(S_{xx} - S_{yy})^2 + 4S_{xy}^2}}{2S_{xy}} \\
+			c & = \bar{y}-m\bar{x}
+		\end{align*} 
+		such that the objective is minimum.
 \end{solution}
 
 \part[1] Looking at the expressions you've derived for the above two parts, give a small example dataset where the optimizer $(w,b)$ is identical to the optimizer $(m,c)$, and another dataset/scenario where these two optimizers are quite different. 
-\begin{solution} 
+\begin{solution}
+	\begin{enumerate}
+		\item Consider the dataset which are collinear:
+		\[\{ (1, 3), (2, 5), (3, 7) \}\]
+		For the dataset we have
+		\begin{align*}
+			\bar{x}=&2;\quad \bar{y}=5\\
+			S_{xx} = 2;&\quad S_{yy}=8; \quad S_{xy} = 4
+		\end{align*}
+		The optimizer $(w,b)$ is therefore
+		\begin{align*}
+			w = \frac{S_{xy}}{S_{xx}} = 2; \quad b=\bar{y} - \dfrac{S_{xy}}{S_{xx}}\bar{x}=1
+		\end{align*}
+		And the optimizer $(m,c)$ is therefore
+		\begin{align*}
+			m = \frac{3 + \sqrt{3^2 + 4\times 2\times 2}}{2\times 2} =2;\quad c=1
+		\end{align*} 
+		\item The optimizers will be different whenever the data points are not perfectly collinear. Consider the dataset:
+		$$\{ (1, 0), (4, 4), (1, 5) \}$$
+		For the dataset we have
+		\begin{align*}
+			\bar{x}=&2;\quad \bar{y}=3\\
+			S_{xx} = 6;&\quad S_{yy}=14; \quad S_{xy} = 3
+		\end{align*}
+		The optimizer $(w,b)$ is therefore
+		\begin{align*}
+			w = \frac{S_{xy}}{S_{xx}} = 0.5; \quad b=\bar{y} - \dfrac{S_{xy}}{S_{xx}}\bar{x}=2
+		\end{align*}
+		And the optimizer $(m,c)$ is therefore
+		\begin{align*}
+			m = \frac{(14 - 6) + \sqrt{(6 - 14)^2 + 4\times 3^2}}{2\times 3} =3;\quad c=-3
+		\end{align*} 
+	\end{enumerate}
 \end{solution}
     
 \part[2] Note that the (perpendicular/shortest) distance of a point to a line from geometry is used to get each summation term above in part (c). In this question, use the method of Lagrange multiplier to algebraically derive the same results as follows.\\ 
 Consider a point $p=(p_x,p_y)$. Of all the points on a line $y=mx+c$, what is the closest point to $p$? Also show that the distance between this closest point and $p$ is $\frac{|(m p_x + c) - p_y|}{\sqrt{m^2 + 1}}$.
 \begin{solution} 
+	Let the closest point is $(x,y)$. So, the optimization problem is 
+	\begin{align*}
+		\min_{x,y} &\sqrt{(x-p_x)^2+(y-p_y)^2}\\
+		\text{st, }& \quad y=mx+c
+	\end{align*}
+	Writing the objective function with Lagrange multiplier
+	\begin{align*}
+		L(x,y,\lambda)=(x-p_x)^2+(y-p_y)^2+\lambda(y-mx-c)
+	\end{align*}
+	Now, the necessary conditions
+	\begin{align*}
+		\frac{\partial L}{\partial x}&=0\Rightarrow x = p_{x}+\frac{\lambda m}{2}\\
+		\frac{\partial L}{\partial y}&=0\Rightarrow y = p_{y}-\frac{\lambda}{2}\\
+		\frac{\partial L}{\partial \lambda}&=0\Rightarrow \lambda = 2\left(\frac{p_y-mp_x-c}{1+m^2}\right)
+	\end{align*} 
+	Substituting $\lambda$ in $x,y$ and get
+	\begin{align*}
+		x=\frac{p_x+mp_y-mc}{1+m^2};\quad y = \frac{mp_x+m^2p_y+c}{1+m^2}
+	\end{align*}
+	So, the distance between this closest point and $p$ is
+	\begin{align*}
+		\sqrt{(x-p_x)^2+(y-p_y)^2}=\sqrt{\frac{(1+m^2)\lambda^2}{4}}=\sqrt{\frac{(p_y-mp_x-c)^2}{1+m^2}}=\frac{|(mp_x+c)-p_y|}{\sqrt{m^2+1}}\quad\qed
+	\end{align*}
 \end{solution}
 
 \part[0] {\sc [Optional ungraded]} What is the optimal $(w,b)$ and $(m,c)$ for the dataset shown below. 
@@ -588,6 +737,19 @@ $i$ & $x~(\text{i.e.,}~ x_i)$ & $y~(\text{i.e.,}~ y_i)$ \\ \hline
 \end{tabular}
 \end{table}
 \begin{solution} 
+	From the dataset we have
+	\begin{align*}
+		\bar{x}=&3;\quad \bar{y}=2.5\\
+		S_{xx} = 10;&\quad S_{yy}=5; \quad S_{xy} = 7
+	\end{align*}
+	The optimizer $(w,b)$ is therefore
+	\begin{align*}
+		w = \frac{S_{xy}}{S_{xx}} = 0.7; \quad b=\bar{y} - \dfrac{S_{xy}}{S_{xx}}\bar{x}=0.4
+	\end{align*}
+	And the optimizer $(m,c)$ is therefore
+	\begin{align*}
+		m = \frac{-5 + \sqrt{5^2 + 4\times 7\times 7}}{2\times 7} =0.7047;\quad c=0.3859
+	\end{align*} 
 \end{solution}
 \end{parts}
 
