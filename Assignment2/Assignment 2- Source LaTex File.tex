@@ -317,11 +317,12 @@ Under the above assumptions, please attempt the following questions.
 		this step has a time complexity of $O(N^3)$
 		\item Now computing the orthonormal eigenvectors of the matrix $S$ as follows(as computed before)
 		\begin{align*}
-			v_i=\frac{X^Tu_i}{\sqrt{\lambda_i}}
+			v_i=\frac{X^Tu_i}{\sqrt{\lambda_i}}\quad\forall~i\in\{1,2,\cdots,N\}
 		\end{align*}
-		this step has a time complexity of $O(ND)$
+		this step has a time complexity of $O(N^2D)$
 	\end{enumerate}
-	Hence, the overall complexity is $O(N^3+N^2D+ND)=O(N^3)$. This is a massive improvement over the original $O(D^3).$
+	Hence, time complexity can't be $O(N^3)$ it is $O(N^2D)$. Which is a big improvement form $O(D^3)$
+%	This is a massive improvement over the original $O(D^3).$
 \end{solution}
 \end{parts}
 
