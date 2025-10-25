@@ -1,0 +1,306 @@
+\documentclass[11pt, a4paper]{article}
+
+% --- PACKAGES ---
+\renewcommand{\rmdefault}{ppl} % rm
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage[svgnames]{xcolor}
+\usepackage[most]{tcolorbox}
+
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+
+% --- SOLUTION BOX STYLE ---
+\newtcolorbox{solutionbox}{
+    colback=white,           % White background
+    colframe=black,          % Simple black frame
+    title=\textbf{Solution},
+    fonttitle=\bfseries,
+    coltitle=black,          % Black title text
+    attach boxed title to top left={xshift=5mm, yshift=-2mm},
+    boxed title style={
+        sharp corners,
+        colback=white,       % White background for title
+        frame hidden,        % Hides the title box's own frame
+    },
+}
+
+% --- DOCUMENT START ---
+\begin{document}
+
+% --- TITLE ---
+\hrule
+\vspace{3mm}
+\noindent 
+{\sf IITM-CS5691 : Pattern Recognition and Machine Learning  \hfill Release Date: Oct 24, 2025}
+\\
+\noindent 
+{\sf Assignment 3 \hfill Due Date : Nov 08, 2025, {\bf 9pm}}
+%{\sf ~\hfill }
+\vspace{3mm}
+\hrule
+\vspace{3mm}
+\noindent{{\sf Roll No:EE25S009} }% put your ROLL NO AND NAME HERE
+
+\noindent
+{{\sf Collaborators (if any): }\hfill  {\sf Name: RITABRATA MANDAL}} %Names of the collaborators (if any).
+
+\noindent
+{{\sf References/sources (if any): 
+}} %Reference/source materials, if any.
+
+\vspace{3mm}
+\hrule
+
+% --- INSTRUCTIONS ---
+\subsection*{General Instructions}
+\begin{itemize}[leftmargin=*]
+\item Use \LaTeX\ to write-up your solutions (in the solution blocks of the source \LaTeX\ file of this assignment), and submit the resulting {\bf single pdf file} at Gradescope by the due date. (Note: {\bf No late submissions} will be allowed, other than one-day late submission with 10\% penalty or four-day late submission with 30\% penalty! You can join Gradescope using the course entry code 6K4P43. {\bf Within Gradescope, clearly mark your answer to each question}, else we won't be able to grade it.)
+\item For the programming question, please submit your code (rollno.ipynb file and rollno.py file in rollno.zip) directly in moodle, but provide your results/answers (including Jupyter notebook {\bf with output}) in the pdf file you upload to Gradescope.
+\item Collaboration is encouraged, but all write-ups must be done individually and independently, and mention your collaborator(s) if any. Same rules apply for codes written for any programming assignments (i.e., write your own code; we will run plagiarism and AI detection checks on codes).
+\item  If you have referred a book or any other online material for obtaining a solution, please cite the source. Again don't copy the source {\it as is} - you may use the source to understand the solution, but write-up the solution in your own words.   
+\item For all the reasons explained in class, you cannot feed these questions into LLMs (Large Language Models like ChatGPT) and cannot use the LLMs' outputs to answer this assignment. Related to this, please also complete the self-declaration statement in the end of your answer sheet pdf. 
+\item Please be advised that {\it the lesser your reliance on online materials or LLMs} for answering the questions, {\it the more your understanding} of the concepts will be and {\it the more prepared you will be for the course exams}.
+\item Points will be awarded based on how clear, concise and rigorous your solutions are, and how correct your answer is. The weightage of this assignment is 11\% towards the overall course grade. 
+\end{itemize}
+\hrule
+\vspace{5mm}
+
+% --- QUESTIONS ---
+\begin{enumerate}
+
+    % --- QUESTION 1 [Logistic Regression: Theory and Practice]---
+    \item \textbf{(8 points) [Logistic Regression: Theory and Practice]} \\
+
+    \begin{enumerate}[label=(\alph*)]
+        \item \textbf{(1 point)} Briefly explain why logistic regression is called "regression", despite it being a classification model.
+        
+        \begin{solutionbox}
+        	answer
+        \end{solutionbox}
+        
+        \item \textbf{(3 points)} Consider the following 2-dimensional classification dataset with 8 points:
+        \[ X^T = \begin{bmatrix}
+        -2 & -2 & -1 & 1 & 1 & 2 & 3 & 3 \\
+        -1 & 2 & 1 & 2 & 1 & 3 & 3 & 2
+        \end{bmatrix} \]
+        \[ y^T = \begin{bmatrix}
+        +1 & +1 & +1 & -1 & -1 & +1 & -1 & -1
+        \end{bmatrix} \]
+        Run \textbf{one iteration} of gradient descent for the logistic loss objective $L(w) = \sum_{i=1}^8 \log(1 + \exp(-y_i w^T x_i))$ by hand. Use an initial weight vector $w^{(0)} = [0, 0]^T$ and a step size $\eta = 1$. No bias term is required. Show your calculation for the gradient $\nabla L(w^{(0)})$ and the updated weight vector $w^{(1)}$.
+        
+        \begin{solutionbox}
+        \end{solutionbox}
+    
+        \item \textbf{(1 point)} Using the updated weight vector $w^{(1)}$ you just calculated, what is the equation of the decision boundary (where $P	(y=1|x) = 0.5$)?
+        
+        \begin{solutionbox}
+        \end{solutionbox}
+    
+        \item \textbf{(1 point)} Using $w^{(1)}$, what is the probability $P(y=1|x)$ for a new test point $x_{new} = [2, 2]^T$? (Recall $P(y=1|x) = \sigma(w^T x)$, where $\sigma(z) = 1 / (1 + e^{-z})$).
+        
+        \begin{solutionbox}
+        \end{solutionbox}
+    
+        \item \textbf{(1 point)} If you were to continue training this model and found it was overfitting, you might add L2 regularization. Explain what effect adding strong L2 regularization (a large $\lambda$) would have on the magnitude of the final, converged weight vector $\hat{w}$.
+        
+        \begin{solutionbox}
+        \end{solutionbox}
+    
+    \end{enumerate}
+
+    % --- QUESTION 2 [THE KERNEL TRICK AND ITS ALTERNATIVES]---
+    \item \textbf{(8 points) [THE KERNEL TRICK AND ITS ALTERNATIVES]} \\
+    Consider a 1D dataset that is not linearly separable:
+    \begin{itemize}
+        \item \textbf{Class +1:} $x = -2$, $x = 2$
+        \item \textbf{Class -1:} $x = -1$, $x = 1$
+    \end{itemize}
+    We want to make this dataset linearly separable by mapping it to a higher-dimensional space using a feature map $\phi(x)$.
+    
+    \begin{enumerate}[label=(\alph*)]
+        \item \textbf{(1 point)} In your own words, what is the primary purpose of the kernel trick in algorithms like SVM? Why is it useful?
+        
+        \begin{solutionbox}
+        \end{solutionbox}
+        
+        \item \textbf{(2 points)} Propose a simple feature mapping $\phi(x): \mathbb{R} \to \mathbb{R}^2$ that transforms the given 1D data into a 2D space where it becomes linearly separable. Plot or list the transformed coordinates of the four data points to show they are now separable.
+        
+        \begin{solutionbox}
+        \end{solutionbox}
+        
+        \item \textbf{(2 points)} For the feature mapping $\phi(x)$ you defined in part (b), derive the corresponding kernel function $K(x_i, x_j) = \phi(x_i)^T \phi(x_j)$. Show your work.
+        
+        \begin{solutionbox}
+        \end{solutionbox}
+    
+        \item \textbf{(3 points)} Now, suppose you did not want to use a kernel (i.e., you stay in the original 1D space and build a linear SVM model). Could this 1D dataset be solved using a \textbf{hard-margin SVM}? Why or why not?
+        
+        Could a \textbf{soft-margin SVM} be used? If yes, justify your answer by describing what the resulting linear classifier would do (i.e., where would its 1D decision boundary likely be, and which points would it misclassify? consider two values of the model complexity hyperparameter $C$: $1$ and $1000$). 
+        
+        \begin{solutionbox}
+        \end{solutionbox}
+    
+    \end{enumerate}
+
+    % --- QUESTION 3 [Valid Kernel Functions] ---
+    \item \textbf{(8 points) [Constructing Valid Kernels]} \\
+    Let $K_1$ and $K_2$ be a valid kernel functions, with feature mapping $\varphi_1 : \mathbb{R}^d \to \mathbb{R}^{d_1}$ and $\varphi_2 : \mathbb{R}^d \to \mathbb{R}^{d_2}$.
+    
+    \begin{enumerate}[label=(\roman*)]
+        \item \textbf{(2 points)} Show that $K_3 = K_1 + K_2$ is also a valid kernel. Give the feature mapping $\varphi_3$ corresponding to $K_3$ in terms of $\varphi_1$ and $\varphi_2$.
+        
+        \begin{solutionbox}
+        \end{solutionbox}
+        
+        \item \textbf{(2 points)} Show that $K_4 = K_1 \cdot K_2$ is also a valid kernel. Give the feature mapping $\varphi_4$ corresponding to $K_4$ in terms of $\varphi_1$ and $\varphi_2$.
+        
+        \begin{solutionbox}
+        \end{solutionbox}
+        
+        \item \textbf{(2 points)} Show that $K_5 = f(u) K_1(u,v) f(v)$ is also a valid kernel for any function $f : \mathbb{R}^d \to \mathbb{R}$. Give the feature mapping $\varphi_5$ corresponding to $K_5$ in terms of $\varphi_1$ and $f$.
+        
+        \begin{solutionbox}
+        \end{solutionbox}
+        
+        \item \textbf{(2 points)} Show that a Kernel given by $K(u,v) = \exp(2u^T v)$ is a valid kernel. [Hint: Use the results above on a polynomial expansion of $\exp(t)$.]
+        
+        \begin{solutionbox}
+        \end{solutionbox}
+        
+        \item \textbf{(0 points) (Optional)} Show that a Kernel given by $K(u,v) = \exp(-\|u-v\|^2)$ is a valid kernel. [Hint: Use the last two parts' results.]
+        
+        \begin{solutionbox}
+        \end{solutionbox}
+    
+    \end{enumerate}
+
+    % --- QUESTION 4 [Primal, Dual, and Complexity of Ridge Regression] ---
+    \item \textbf{(8 points) [Primal, Dual, and the Representer Theorem]} \\
+    Consider the primal objective function for Ridge Regression in a feature space (with features $\phi(x)$):
+    \[ \min_{w \in \mathbb{R}^{d'}} \left(L(w) := \frac{1}{2} ||\Phi w - y||^2 + \frac{1}{2} ||w||^2 \right) \]
+    where $\Phi$ is the $n \times d'$ design matrix with rows $\phi(x_i)^T$, $y$ is the $n \times 1$ target vector, $w$ is the $d' \times 1$ weight vector, and $\lambda > 0$ is the regularization parameter.
+    
+    \begin{enumerate}[label=(\alph*)]
+        \item \textbf{(1 point)} Using the Representer Theorem, get the dual version of the given primal problem.
+        
+        \begin{solutionbox}
+        \end{solutionbox}
+        
+        \item \textbf{(2 points)} Find the optimal $\hat{\alpha}$ by computing the gradient of the dual objective, $\nabla R(\alpha)$, setting it to zero, and solving for $\alpha$.
+        
+        \begin{solutionbox}
+        \end{solutionbox}
+        
+        \item \textbf{(1 point)} Show how the learned function $f(x) = \hat{w}^T \phi(x)$ can be evaluated on a new test point $x$ using only the dual solution $\hat{\alpha}$ and kernel function evaluations $K(x_i, x) = \phi(x_i)^T \phi(x)$.
+        
+        \begin{solutionbox}
+        \end{solutionbox}
+    
+        \item \textbf{(2 points)} The standard primal solution $\hat{w}_{primal}$ is found by solving $\nabla L(w) = 0$ for $w$. The dual-derived solution is $\hat{w}_{dual} = \Phi^T \hat{\alpha}$.
+        
+        Argue that both are identical and use it to prove the push-through matrix identity (also related to the Sherman–Morrison–Woodbury identity):\\ $(\Phi^T \Phi + I)^{-1} \Phi^T = \Phi^T (\Phi \Phi^T + I)^{-1}$.
+
+        \begin{solutionbox}
+        \end{solutionbox}
+        
+        \item \textbf{(2 points)} Compare the computational complexity for calculating the two $\hat{w}$ solutions from part (d).
+        
+        Provide a step-by-step breakdown of the time complexity (in asymptotic big-Oh notation) for computing $\hat{w}_{primal}$ and $\hat{w}_{dual}$.
+        Based on your analysis, when is the primal solution more efficient to compute, and when is the dual solution more efficient?
+    
+        \begin{solutionbox}
+        \end{solutionbox}
+    
+    \end{enumerate}
+
+    % --- QUESTION 5 [MAXIMIZING THE MARGIN WITH SVMS]---
+    \item \textbf{(8 points) [MAXIMIZING THE MARGIN WITH SVMS]} \\
+    Consider a simple, linearly separable 2D dataset for a Support Vector Machine (SVM) classifier:
+    \begin{itemize}
+        \item \textbf{Class +1:} $(2, 3)$, $(3, 3)$
+        \item \textbf{Class -1:} $(1, 1)$, $(2, 1)$
+    \end{itemize}
+    The decision boundary is a hyperplane of the form $w^T x + b = 0$. For a canonical hyperplane, the margin is $2/||w||$, and for all data points $(x_i, y_i)$, we have $y_i(w^T x_i + b) \ge 1$.
+
+    \begin{enumerate}[label=(\alph*)]
+        \item \textbf{(3 points)} By inspection or simple geometry, determine the equation of the maximal margin hyperplane that separates these two classes. Identify the weight vector $w$ and the intercept/bias $b$.
+        \begin{solutionbox}
+    \end{solutionbox} 
+        \item \textbf{(3 points)} Identify the support vectors from the dataset. How do these points satisfy the condition $y_i(w^T x_i + b) = 1$?
+        \begin{solutionbox}
+    \end{solutionbox} 
+        \item \textbf{(2 points)} Suppose we remove the point $(1, 1)$ from the dataset. Would the decision boundary change? Now, suppose we instead remove the point $(2, 3)$. Would the decision boundary change in this case? Explain your reasoning.
+
+    \begin{solutionbox}
+    \end{solutionbox} 
+    \end{enumerate}
+
+    % --- QUESTION 6 [GUESS-TIMATING BIAS AND VARIANCE]---
+    \item \textbf{(15 points) [GUESS-TIMATING BIAS AND VARIANCE]} \\
+    You are given a dataset consisting of 100 datapoints in \href{https://drive.google.com/drive/folders/1zW42_WnTQDCYy22ZbLPQmwVjFZyX3ZrP?usp=sharing}{this folder}. You have to fit a polynomial ridge regression model to this data.
+
+    A model's error can be decomposed into bias, variance, and noise. A ``learning curve'' provides an opportunity to determine the bias and variance of machine learning models, and to identify models that suffer from high bias (underfitting) or high variance (overfitting). The ``learning curve'' typically shows the training error and validation/testing error on the y-axis and the model complexity on the x-axis.
+
+    \begin{enumerate}[label=(\alph*)]
+        \item \textbf{(2 points)} Read the last Section (Section 4) on "Bias and Variance in practice" in this \href{https://cs229.stanford.edu/summer2019/BiasVarianceAnalysis.pdf}{document}, and summarize briefly how you will heuristically find whether your model suffers from (i) high bias, or (ii) high variance, using only the train and validation/test errors of the model.
+        \begin{solutionbox}
+
+        \end{solutionbox}
+        
+        \item \textbf{(4 points)} Start with the code for polynomial regression and add quadratic regularization functionality to the code. That is, your code should do polynomial regression with quadratic regularization that takes degree $d$ and regularization parameter $\lambda$ as input. 
+        \red{Do not use any inbuilt functions from Python packages (except for plotting functions, functions to compute polynomial features for each data point, and functions for (pseudo)inverse of matrices).}
+        \begin{solutionbox}
+
+        \end{solutionbox}
+        
+        \item \textbf{(4 points)} Run your code on the provided dataset for degree $d=24$ and each $\lambda$ in the set: 
+        \[\{10^{-15}, 10^{-9}, 10^{-6}, 10^{-3}, 10^{-2}, 10^{-1}, 1, 10^{1}, 10^{2}, 10^{3}, 10^{6}, 10^{9}, 10^{15}\}\]
+         \begin{enumerate}
+             \item[i.] Perform 5-fold cross-validation on the 100 data points (20 data points in each fold). For each validation fold, compute both training (4-fold-based) and validation (1-fold-based) errors using the mean squared error measure. 
+             \item[ii.] Calculate the average training and validation errors across the 5 folds.
+         \end{enumerate}
+         \begin{solutionbox}
+
+        \end{solutionbox}
+        
+
+        \item \textbf{(3 points)} Construct a learning curve by plotting the average training and validation errors against the model complexity ($\log_{10} \lambda$). Based on this learning curve, identify the (i) model with the highest bias, (ii) model with the highest variance?, and (iii) the model that will work best on some unseen data.
+        \begin{solutionbox}
+        
+        \end{solutionbox}
+
+        \item \textbf{(2 points)} Plot the fitted curve to the given data ($\hat{y}$ against $x$ curve) for the three models reported in part (d) and superimposed with the training and validation data points for any one-fold. 
+        
+        \begin{solutionbox}
+        
+        \end{solutionbox}
+        \end{enumerate}
+        
+\end{enumerate}
+
+    % --- SELF DECLARATION ---
+    \vspace{10mm}
+    \hrule
+    \begin{center}
+        \large\textbf{Self Declaration}
+    \end{center}
+    \vspace{3mm}
+    I, \underline{RITABRATA MANDAL} , swear on my honour that I have prepared and written the answers for this assignment and associated code by myself and have not copied it from the internet, any LLM's output, or other students.
+    \vspace{5mm}
+    \hrule
+    \vspace{10mm}
+
+% --- DOCUMENT END ---
+\end{document}
