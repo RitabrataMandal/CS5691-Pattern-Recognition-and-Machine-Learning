@@ -9,11 +9,12 @@
 \usepackage{hyperref}
 \usepackage{enumitem}
 \usepackage{array}
+\usepackage{caption} % <-- add this in your preamble
 \usepackage[svgnames]{xcolor}
 \usepackage[most]{tcolorbox}
 
 \newcommand{\red}[1]{\textcolor{red}{#1}}
-
+\newcommand{\norm}[2]{\lVert#1\rVert_{#2}}
 \hypersetup{
     colorlinks=true,
     linkcolor=blue,
@@ -23,18 +24,24 @@
 
 % --- SOLUTION BOX STYLE ---
 \newtcolorbox{solutionbox}{
-    colback=white,           % White background
-    colframe=black,          % Simple black frame
-    title=\textbf{Solution},
-    fonttitle=\bfseries,
-    coltitle=black,          % Black title text
-    attach boxed title to top left={xshift=5mm, yshift=-2mm},
-    boxed title style={
-        sharp corners,
-        colback=white,       % White background for title
-        frame hidden,        % Hides the title box's own frame
-    },
+	enhanced,                    % enables advanced features
+	breakable,                   % allows box to break across pages
+	colback=white,               % background color
+	colframe=black,           % slightly gray frame
+	coltitle=white,              % title text color
+	fonttitle=\bfseries,         % bold title
+	title={\textbf{Solution}},  % box title
+	rounded corners,             % smooth corners
+	boxrule=0.8pt,               % border thickness
+%	attach boxed title to top left={xshift=0mm, yshift*=0mm},
+	boxed title style={
+		frame hidden,
+		sharp corners
+	},
+	top=4pt, bottom=4pt, left=6pt, right=6pt, % padding inside box
+	before skip=10pt, after skip=10pt,         % vertical spacing
 }
+
 
 % --- DOCUMENT START ---
 \begin{document}
@@ -101,16 +108,47 @@
         Run \textbf{one iteration} of gradient descent for the logistic loss objective $L(w) = \sum_{i=1}^8 \log(1 + \exp(-y_i w^T x_i))$ by hand. Use an initial weight vector $w^{(0)} = [0, 0]^T$ and a step size $\eta = 1$. No bias term is required. Show your calculation for the gradient $\nabla L(w^{(0)})$ and the updated weight vector $w^{(1)}$.
         
         \begin{solutionbox}
+        	The logistic loss objective function is
+        	\begin{align*}
+        		L(w)=\sum_{i=1}^{8}\log(1+\exp{(-y_{i}w^{T}x_{i})})
+        	\end{align*}
+        	The gradient of the loss function w.r.to $w$ 
+        	\begin{align*}
+        		\nabla_{w} L(w)&=\sum_{i=1}^{8}\frac{1}{1+\exp(-y_{i}w^{T}x_{i})}\cdot \exp(-y_{i}w^{T}x_{i})\cdot(-y_{i}x_{i})\\
+        		&=-\sum_{i=1}^{8}\frac{y_{i}x_{i}}{1+\exp(y_{i}w^{T}x_{i})}
+        	\end{align*}
+        	Now, the gradient at the initial weight $w^{(0)}=\begin{bmatrix}0&0\end{bmatrix}^{T}$
+        	\begin{align*}
+        		\nabla_{w}L(w^{(0)})&=-\sum_{i=1}^{8}\frac{y_ix_i}{1+\exp(y_{i}{w^{(0)}}^{T}x_{i})}=-\frac{1}{2}\sum_{i=1}^{8}y_{i}x_{i}\\
+        		&= -\frac{1}{2}\left(\begin{bmatrix} -2 \\ -1 \end{bmatrix} + \begin{bmatrix} -2 \\ 2 \end{bmatrix} + \begin{bmatrix} -1 \\ 1 \end{bmatrix} -\begin{bmatrix} 1 \\ 2 \end{bmatrix} -\begin{bmatrix} 1 \\ 1 \end{bmatrix} + \begin{bmatrix} 2 \\ 3 \end{bmatrix} -\begin{bmatrix} 3 \\ 3 \end{bmatrix} -\begin{bmatrix} 3 \\ 2 \end{bmatrix}\right) \\
+        		&= \begin{bmatrix} 11/2 \\ 3/2 \end{bmatrix}=\begin{bmatrix}5.5\\1.5\end{bmatrix}
+        	\end{align*}
+        	By the gradient descend update rule
+        	\begin{align*}
+        		w^{(1)}&=w^{(0)}-\eta\nabla_{w}(w^{(0)})\\
+        		&=\begin{bmatrix}0\\0\end{bmatrix}-\begin{bmatrix}5.5\\1.5\end{bmatrix}=\begin{bmatrix}-5.5\\-1.5\end{bmatrix}
+        	\end{align*}
         \end{solutionbox}
     
         \item \textbf{(1 point)} Using the updated weight vector $w^{(1)}$ you just calculated, what is the equation of the decision boundary (where $P	(y=1|x) = 0.5$)?
         
         \begin{solutionbox}
+        	The equation of the decision boundary
+        	\begin{align*}
+        		P(y=1\mid x) =0.5&=\sigma({w^{(1)}}^{T} x)\\
+        		\Rightarrow0.5&=\frac{1}{1+\exp\left(-{w^{(1)}}^{T} x\right)}\\
+        		\Rightarrow 2& = 1+\exp\left(-{w^{(1)}}^{T} x\right)\\
+        		\Rightarrow {w^{(1)}}^{T}x&=0\Rightarrow \begin{bmatrix}-5.5 & -1.5\end{bmatrix}x=0
+        	\end{align*}
         \end{solutionbox}
     
         \item \textbf{(1 point)} Using $w^{(1)}$, what is the probability $P(y=1|x)$ for a new test point $x_{new} = [2, 2]^T$? (Recall $P(y=1|x) = \sigma(w^T x)$, where $\sigma(z) = 1 / (1 + e^{-z})$).
         
         \begin{solutionbox}
+        	The probability
+        	\begin{align*}
+        		P(y=1\mid x_{new})=\sigma\left({w^{(1)}}^{T}x_{new}\right)=\sigma\left(-14\right)=1/(1+e^{14})=8.315\times 10^{-7}\approx 0
+        	\end{align*}
         \end{solutionbox}
     
         \item \textbf{(1 point)} If you were to continue training this model and found it was overfitting, you might add L2 regularization. Explain what effect adding strong L2 regularization (a large $\lambda$) would have on the magnitude of the final, converged weight vector $\hat{w}$.
@@ -138,6 +176,11 @@
         \item \textbf{(2 points)} Propose a simple feature mapping $\phi(x): \mathbb{R} \to \mathbb{R}^2$ that transforms the given 1D data into a 2D space where it becomes linearly separable. Plot or list the transformed coordinates of the four data points to show they are now separable.
         
         \begin{solutionbox}
+        	\begin{center}
+        		\includegraphics[width=\textwidth]{question_2b.pdf}
+        		\captionof{figure}{Feature mapping visualization}
+        		\label{fig:feature-map}
+        	\end{center}
         \end{solutionbox}
         
         \item \textbf{(2 points)} For the feature mapping $\phi(x)$ you defined in part (b), derive the corresponding kernel function $K(x_i, x_j) = \phi(x_i)^T \phi(x_j)$. Show your work.
@@ -196,16 +239,58 @@
         \item \textbf{(1 point)} Using the Representer Theorem, get the dual version of the given primal problem.
         
         \begin{solutionbox}
+        	Let, $u+v \text{ where } u\in \operatorname{null}(\Phi);~v\in\operatorname{col}(\Phi^{T})$\\
+        	The objective
+        	\begin{align*}
+        		\min_{w \in \mathbb{R}^{d'}} &\;\frac{1}{2} \norm{\Phi w - y}{2}^2 + \frac{1}{2} \norm{w}{2}^2 \\
+        		&\qquad\qquad\big\Updownarrow\\
+        		\min_{\substack{u \in \operatorname{null}(\Phi) \\ v \in \operatorname{col}(\Phi^{T})}}
+        		&\;\frac{1}{2}\norm{\Phi(u+v)-y}{2}^{2}
+        		+ \frac{1}{2}\norm{u}{2}^{2}
+        		+ \frac{1}{2}\norm{v}{2}^{2}\\
+        		&\qquad\qquad\big\Updownarrow \\
+        		\min_{v \in \operatorname{col}(\Phi^{T})}
+        		&\;\frac{1}{2}\norm{\Phi v - y}{2}^{2}
+        		+ \frac{1}{2}\norm{v}{2}^{2}\\
+        		&\qquad\qquad\big\Updownarrow\\
+        		\min_{\alpha \in \mathbb{R}^{n}}\frac{1}{2}&\;\norm{\Phi\Phi^{T}\alpha-y}{2}^{2}+\frac{1}{2}\norm{\Phi^{T}\alpha}{2}^{2}
+        	\end{align*}
+        	
+        	Hence, the dual problem is 
+        	\begin{align*}
+        		\min_{\alpha \in \mathbb{R}^{n}} R(\alpha) := \frac{1}{2}\norm{\Phi\Phi^{T}\alpha-y}{2}^{2}+\frac{1}{2}\norm{\Phi^{T}\alpha}{2}^{2}
+        	\end{align*}
         \end{solutionbox}
         
         \item \textbf{(2 points)} Find the optimal $\hat{\alpha}$ by computing the gradient of the dual objective, $\nabla R(\alpha)$, setting it to zero, and solving for $\alpha$.
         
         \begin{solutionbox}
+        	The gradient of $R(\alpha)$
+        	\begin{align*}
+        		\nabla R(\alpha)&=\Phi\Phi^{T}\left(\Phi\Phi^{T}\alpha-y\right)+\Phi\Phi^{T}\alpha\\
+        		&=\Phi\Phi^{T}\left((\Phi\Phi^{T}+\mathbb{I})\alpha-y\right)
+        	\end{align*}
+        	Now setting $\nabla R(\alpha)$ to zero
+        	\begin{align*}
+        		&\nabla R(\alpha)=0\\
+        		\Rightarrow&\Phi\Phi^{T}\left((\Phi\Phi^{T}+\mathbb{I})\alpha-y\right)=0\\
+        		\Rightarrow&\hat{\alpha}=\left(\Phi\Phi^{T}+\mathbb{I}\right)^{-1}y
+        	\end{align*}
         \end{solutionbox}
         
         \item \textbf{(1 point)} Show how the learned function $f(x) = \hat{w}^T \phi(x)$ can be evaluated on a new test point $x$ using only the dual solution $\hat{\alpha}$ and kernel function evaluations $K(x_i, x) = \phi(x_i)^T \phi(x)$.
         
         \begin{solutionbox}
+        	The learned function can be written as
+        	\begin{align*}
+        		f(x)&=\hat{w}^{T}\phi(x)\\
+        		&=\hat{\alpha}^{T}\Phi\phi(x)=\hat{\alpha}^{T}\begin{bmatrix}
+        			\phi(x_1)^{T}\\
+        			\vdots\\
+        			\phi(x_n)^{T}
+        		\end{bmatrix}\phi(x)\\
+        		&=\sum_{i=1}^{n}\hat{\alpha}_{i}\phi(x_{i})^{T}\phi(x)=\sum_{i=1}^{n}\hat{\alpha}_{i}K(x_{i},x)
+        	\end{align*}
         \end{solutionbox}
     
         \item \textbf{(2 points)} The standard primal solution $\hat{w}_{primal}$ is found by solving $\nabla L(w) = 0$ for $w$. The dual-derived solution is $\hat{w}_{dual} = \Phi^T \hat{\alpha}$.
@@ -213,6 +298,15 @@
         Argue that both are identical and use it to prove the push-through matrix identity (also related to the Sherman–Morrison–Woodbury identity):\\ $(\Phi^T \Phi + I)^{-1} \Phi^T = \Phi^T (\Phi \Phi^T + I)^{-1}$.
 
         \begin{solutionbox}
+        	The standard primal solution
+        	\begin{align*}
+        		\nabla L(w)&=0\\
+        		\Rightarrow \hat{w}_{primal}&= \left(\Phi^{T}\Phi+\mathbb{I}\right)^{-1}\Phi^{T}y
+        	\end{align*}
+        	Now, the dual-derived solution
+        	\begin{align*}
+        		\hat{w}_{dual}&=\Phi^{T}\hat{\alpha}=\Phi^{T}\left(\Phi\Phi^{T}+\mathbb{I}\right)^{-1}y
+        	\end{align*}
         \end{solutionbox}
         
         \item \textbf{(2 points)} Compare the computational complexity for calculating the two $\hat{w}$ solutions from part (d).
@@ -248,7 +342,7 @@
     \end{enumerate}
 
     % --- QUESTION 6 [GUESS-TIMATING BIAS AND VARIANCE]---
-    \item \textbf{(15 points) [GUESS-TIMATING BIAS AND VARIANCE]} \\
+    \item \textbf{(15 points) [GUESS-TIMATING BIAS AND VARIA NCE]} \\
     You are given a dataset consisting of 100 datapoints in \href{https://drive.google.com/drive/folders/1zW42_WnTQDCYy22ZbLPQmwVjFZyX3ZrP?usp=sharing}{this folder}. You have to fit a polynomial ridge regression model to this data.
 
     A model's error can be decomposed into bias, variance, and noise. A ``learning curve'' provides an opportunity to determine the bias and variance of machine learning models, and to identify models that suffer from high bias (underfitting) or high variance (overfitting). The ``learning curve'' typically shows the training error and validation/testing error on the y-axis and the model complexity on the x-axis.

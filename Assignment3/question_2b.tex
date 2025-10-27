@@ -1,0 +1,110 @@
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{fillbetween}
+\usepackage{amsmath}
+\usetikzlibrary{arrows.meta,fit,positioning}
+
+\begin{document}
+	\begin{tikzpicture}[every node/.style={font=\small}]
+		
+
+		\begin{scope}[xshift=0cm, yshift=2cm, scale=.8]
+			\draw[{Stealth[length=2mm]}-{Stealth[length=2mm]},thick] (-2.5,0) -- (2.5,0) node[right] {$x$};
+			\filldraw[blue!80!black] (-2,0) circle (3pt) node[below=6pt] {$-2$};
+			\filldraw[blue!80!black] ( 2,0) circle (3pt) node[below=6pt] {$2$};
+			\filldraw[red!70!black] (-1,0) circle (3pt) node[below=6pt] {$-1$};
+			\filldraw[red!70!black] ( 1,0) circle (3pt) node[below=6pt] {$1$};
+		\end{scope}
+		
+
+		\begin{scope}[xshift=0cm, yshift=-2.5cm, scale=.8]
+			\draw[{Stealth[length=2mm]}-{Stealth[length=2mm]},thick] (-2.5,0) -- (2.5,0) node[right] {$x$};
+			\filldraw[blue!80!black] (-2,0) circle (3pt) node[below=6pt] {$-2$};
+			\filldraw[blue!80!black] ( 2,0) circle (3pt) node[below=6pt] {$2$};
+			\filldraw[red!70!black] (-1,0) circle (3pt) node[below=6pt] {$-1$};
+			\filldraw[red!70!black] ( 1,0) circle (3pt) node[below=6pt] {$1$};
+			
+			\pgfmathsetmacro{\r}{sqrt(2.5)}
+			\draw[thick, dashed] (\r,.8) -- (\r,-0.5) node[above=1cm] {$\sqrt{2.5}$};
+			\draw[thick, dashed] (-\r,.8) -- (-\r,-0.5) node[above=1cm] {$-\sqrt{2.5}$};
+			\filldraw[red,opacity=.3] (-\r,-0.3) rectangle (\r,0.3);
+			\filldraw[blue,opacity=.3] (-\r,-0.3) rectangle (-2.5,0.3);
+			\filldraw[blue,opacity=.3] (\r,-0.3) rectangle (2.5,0.3);
+		\end{scope}
+		
+
+		\draw[-{Stealth[length=2mm]}] (3,3.5) to [bend left=45] (3.8,2.5)
+		node[above right] {$\phi(x)=(x,x^2)$};
+		\draw[-{Stealth[length=2mm]}] (3.8,-2.7) to [bend left=45] (3.0, -3.5)
+		node[above right] {$\phi^{-1}$};
+		
+
+		\begin{axis}[
+			at={(4.3cm, -2cm)},
+			scale=1.0,
+			width=6.2cm, height=5cm,
+			xmin=-3.2, xmax=3.2,
+			ymin=-0.5, ymax=5.0,
+			axis lines=middle,
+			xlabel={$z_1 = x$},
+			ylabel={$z_2 = x^2$},
+			xlabel style={at={(axis description cs:1,0.15)},anchor=east},
+			clip=false,
+			thick
+			]
+			\addplot+[only marks, mark=*, mark size=2pt, color=blue!80!black]
+			coordinates { (-2,4) (2,4) };
+			\addplot+[only marks, mark=*, mark size=2pt, color=red!70!black]
+			coordinates { (-1,1) (1,1) };
+			\addplot[domain=-2.23:2.23, samples=200, smooth, black, thick] {x^2};
+			\addplot[dashed,thick,black] coordinates {(-3.2, 2.5)(3.2, 2.5)}
+			node[pos=0.6, above, black,font=\small] {$2.5$};
+			
+			\filldraw[red,opacity=.3] (-3.2,0) rectangle (3.2,2.5);
+			\filldraw[blue,opacity=.3] (-3.2,2.5) rectangle (3.2,5);
+			
+			\node[blue!80!black, font=\small] at (axis cs:-2.8,4) {$\phi(-2)$};
+			\node[blue!80!black, font=\small] at (axis cs:2.6,4) {$\phi(2)$};
+			\node[red!70!black, font=\small] at (axis cs:-1.8,1) {$\phi(-1)$};
+			\node[red!70!black, font=\small] at (axis cs:1.6,1) {$\phi(1)$};
+		\end{axis}
+		
+
+		\draw[dashed, thick, rounded corners, gray]
+		(-3.0, 1.0) rectangle (3.0, 3.5);
+		\node[anchor=north west, font=\footnotesize, fill=white, inner sep=1pt] 
+		at (-2.9, 3.4) {\textbf{(a) Original input space}};
+		
+		\draw[dashed, thick, rounded corners, gray]
+		(-3.0, -3.5) rectangle (3.0, -1.0);
+		\node[anchor=south west, font=\footnotesize, fill=white, inner sep=1pt] 
+		at (-2.9, -1.45) {\textbf{(c) Input space with decision boundary}};
+		
+		\draw[dashed, thick, rounded corners, gray]
+		(3.8, -2.7) rectangle (9.3, 2.5);
+		\node[anchor=north west, font=\footnotesize, fill=white, inner sep=1pt] 
+		at (3.9, 2.4) {\textbf{(b) Feature space (after mapping)}};
+		
+
+		\begin{scope}[yshift=-4.5cm]
+			\node[draw=none, anchor=west] at (-2.5,0) {
+				\begin{tikzpicture}[every node/.style={font=\footnotesize}]
+					% Red example
+					\filldraw[red!70!black] (0,0) circle (2.5pt);
+					\node[anchor=west] at (0.1,0) {-1 example};
+					% Blue example
+					\filldraw[blue!80!black] (2.2,0) circle (2.5pt);
+					\node[anchor=west] at (2.3,0) {+1 example};
+					% Red region
+					\filldraw[red,opacity=.4] (4.5,-0.15) rectangle (4.8,0.15);
+					\node[anchor=west] at (4.9,0) {Region classified as -1};
+					% Blue region
+					\filldraw[blue,opacity=.4] (8.2,-0.15) rectangle (8.5,0.15);
+					\node[anchor=west] at (8.6,0) {Region classified as +1};
+				\end{tikzpicture}
+			};
+		\end{scope}
+		
+	\end{tikzpicture}
+\end{document}
