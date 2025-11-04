@@ -9,31 +9,32 @@
 \usepackage{hyperref}
 \usepackage{enumitem}
 \usepackage{array}
-\usepackage{caption} % <-- add this in your preamble
+\usepackage{caption} % <-- add this in your new preamble
 \usepackage[svgnames]{xcolor}
 \usepackage[most]{tcolorbox}
 
+\newcommand{\innerp}[2]{\left\langle#1,#2\right\rangle}
 \newcommand{\red}[1]{\textcolor{red}{#1}}
 \newcommand{\norm}[2]{\lVert#1\rVert_{#2}}
 \hypersetup{
-    colorlinks=true,
-    linkcolor=blue,
-    filecolor=magenta,      
-    urlcolor=cyan,
+	colorlinks=true,
+	linkcolor=blue,
+	filecolor=magenta,     
+	urlcolor=cyan,
 }
 
 % --- SOLUTION BOX STYLE ---
 \newtcolorbox{solutionbox}{
-	enhanced,                    % enables advanced features
-	breakable,                   % allows box to break across pages
-	colback=white,               % background color
-	colframe=black,           % slightly gray frame
-	coltitle=white,              % title text color
-	fonttitle=\bfseries,         % bold title
-	title={\textbf{Solution}},  % box title
-	rounded corners,             % smooth corners
-	boxrule=0.8pt,               % border thickness
-%	attach boxed title to top left={xshift=0mm, yshift*=0mm},
+	enhanced,         % enables advanced features
+	breakable,        % allows box to break across pages
+	colback=white,    % background color
+	colframe=black,   % slightly gray frame
+	coltitle=white,     % title text color
+	fonttitle=\bfseries,    % bold title
+	title={\textbf{Solution}}, % box title
+	rounded corners,    % smooth corners
+	boxrule=0.8pt,        % border thickness
+	%	attach boxed title to top left={xshift=0mm, yshift*=0mm},
 	boxed title style={
 		frame hidden,
 		sharp corners
@@ -41,7 +42,6 @@
 	top=4pt, bottom=4pt, left=6pt, right=6pt, % padding inside box
 	before skip=10pt, after skip=10pt,         % vertical spacing
 }
-
 
 % --- DOCUMENT START ---
 \begin{document}
@@ -82,7 +82,8 @@
 \item Points will be awarded based on how clear, concise and rigorous your solutions are, and how correct your answer is. The weightage of this assignment is 11\% towards the overall course grade. 
 \end{itemize}
 \hrule
-\vspace{5mm}
+\newpage
+%\vspace{5mm}
 
 % --- QUESTIONS ---
 \begin{enumerate}
@@ -94,7 +95,7 @@
         \item \textbf{(1 point)} Briefly explain why logistic regression is called "regression", despite it being a classification model.
         
         \begin{solutionbox}
-        	answer
+        	Logistic regression is called ``regression'' because, it applies a logistic transformation to a liner function $w^{T}x+b$ to produce the class probability. As the underlying model estimates probabilities through a regression based approach, it is called logistic regression.
         \end{solutionbox}
         
         \item \textbf{(3 points)} Consider the following 2-dimensional classification dataset with 8 points:
@@ -154,6 +155,7 @@
         \item \textbf{(1 point)} If you were to continue training this model and found it was overfitting, you might add L2 regularization. Explain what effect adding strong L2 regularization (a large $\lambda$) would have on the magnitude of the final, converged weight vector $\hat{w}$.
         
         \begin{solutionbox}
+        	If we add strong L2 regularization then the model minimizes the norm of the weight vector, leading to a smaller magnitude final weight vector $\hat{w},$ which in turn leads to underfitting of the data.
         \end{solutionbox}
     
     \end{enumerate}
@@ -171,13 +173,19 @@
         \item \textbf{(1 point)} In your own words, what is the primary purpose of the kernel trick in algorithms like SVM? Why is it useful?
         
         \begin{solutionbox}
+        	As SVM is an algorithm that maximizes the linear decision boundary in the dataset, if the dataset is not linearly separable, then SVM will fail to perform classification. However, the kernel trick maps the datapoints to higher-order feature dimensions, where they can be linearly separable, allowing SVM to work. 
         \end{solutionbox}
         
         \item \textbf{(2 points)} Propose a simple feature mapping $\phi(x): \mathbb{R} \to \mathbb{R}^2$ that transforms the given 1D data into a 2D space where it becomes linearly separable. Plot or list the transformed coordinates of the four data points to show they are now separable.
         
         \begin{solutionbox}
+        	Let the feature mapping be
+        	\begin{align*}
+        		\phi(x)=\begin{bmatrix}x\\x^{2}\end{bmatrix}
+        	\end{align*}
+        	Figure \ref{fig:feature-map} shows the full feature mapping and decision boundary. 
         	\begin{center}
-        		\includegraphics[width=\textwidth]{question_2b.pdf}
+        		\includegraphics[width=\textwidth]{figure_2b.pdf}
         		\captionof{figure}{Feature mapping visualization}
         		\label{fig:feature-map}
         	\end{center}
@@ -186,6 +194,15 @@
         \item \textbf{(2 points)} For the feature mapping $\phi(x)$ you defined in part (b), derive the corresponding kernel function $K(x_i, x_j) = \phi(x_i)^T \phi(x_j)$. Show your work.
         
         \begin{solutionbox}
+        	For the feature map 
+        	\begin{align*}
+        		\phi(x)=\begin{bmatrix}x\\x^{2}\end{bmatrix}
+        	\end{align*}
+        	The kernel function 
+        	\begin{align*}
+        		K(x_i,x_{j})&=\phi(x_{i})^{T}\phi(x_{j})=\begin{bmatrix}x_{i}&x_{i}^{2}\end{bmatrix}\begin{bmatrix}x_{j}\\x_{j}^{2}\end{bmatrix}=x_{i}x_{j}+x_{i}^{2}x_{j}^{2}
+        	\end{align*}
+        	Since this kernel is explicitly defined as an inner product in the feature space, it is automatically a valid kernel.
         \end{solutionbox}
     
         \item \textbf{(3 points)} Now, suppose you did not want to use a kernel (i.e., you stay in the original 1D space and build a linear SVM model). Could this 1D dataset be solved using a \textbf{hard-margin SVM}? Why or why not?
@@ -193,6 +210,7 @@
         Could a \textbf{soft-margin SVM} be used? If yes, justify your answer by describing what the resulting linear classifier would do (i.e., where would its 1D decision boundary likely be, and which points would it misclassify? consider two values of the model complexity hyperparameter $C$: $1$ and $1000$). 
         
         \begin{solutionbox}
+        	
         \end{solutionbox}
     
     \end{enumerate}
@@ -205,26 +223,151 @@
         \item \textbf{(2 points)} Show that $K_3 = K_1 + K_2$ is also a valid kernel. Give the feature mapping $\varphi_3$ corresponding to $K_3$ in terms of $\varphi_1$ and $\varphi_2$.
         
         \begin{solutionbox}
+        	As $K_1$ and $K_2$ are valid kernel functions with corresponding feature mapping $\varphi_{1}:\mathbb{R}^{d}\to\mathbb{R}^{d_{1}}$ and $\varphi_{2}:\mathbb{R}^{d}\to\mathbb{R}^{d_{2}}$, we can write 
+        	\begin{align*}
+        		K_{1}&=\innerp{\varphi_{1}(x_{i})}{\varphi_{1}(x_{j})}=\varphi_{1}(x_{i})^{T}\varphi_{1}(x_{j})\\
+        		K_{2}&=\innerp{\varphi_{2}(x_{i})}{\varphi_{2}(x_{j})}=\varphi_{2}(x_{i})^{T}\varphi_{2}(x_{j})
+         	\end{align*}
+        	where $x_i,x_{j}\in\mathbb{R}^{d}$. Now, define
+        	\begin{align*}
+        		K_{3}&=K_{1}+K_{2}=\innerp{\varphi_{1}(x_{i})}{\varphi_{1}(x_{j})}+\innerp{\varphi_{2}(x_{i})}{\varphi_{2}(x_{j})}\\
+        		&=\varphi_{1}(x_{i})^{T}\varphi_{1}(x_{j})+\varphi_{2}(x_{i})^{T}\varphi_{2}(x_{j})\\
+        		&=\begin{bmatrix}\varphi_{1}(x_i)^{T} & \varphi_{2}(x_{i}^{T})\end{bmatrix}\begin{bmatrix}\varphi_{1}(x_{j})\\\varphi_{2}(x_{j})\end{bmatrix}\\
+        		&=\innerp{\begin{bmatrix}\varphi_{1}(x_{i})\\\varphi_{2}(x_{i})\end{bmatrix}}{\begin{bmatrix}\varphi_{1}(x_{j})\\\varphi_{2}(x_{j})\end{bmatrix}}
+        	\end{align*}
+        	Hence, $K_{3}$ is a valid kernel corresponding to the feature mapping
+        	\begin{align*}
+        		\varphi_{3}=\begin{bmatrix}\varphi_{1}\\\varphi_{2}\end{bmatrix}:\mathbb{R}^{d}\to\mathbb{R}^{d_{1}+d_{2}}
+        	\end{align*}
         \end{solutionbox}
         
         \item \textbf{(2 points)} Show that $K_4 = K_1 \cdot K_2$ is also a valid kernel. Give the feature mapping $\varphi_4$ corresponding to $K_4$ in terms of $\varphi_1$ and $\varphi_2$.
         
         \begin{solutionbox}
+        	As $K_1$ and $K_2$ are valid kernel functions with corresponding feature mapping $\varphi_{1}:\mathbb{R}^{d}\to\mathbb{R}^{d_{1}}$ and $\varphi_{2}:\mathbb{R}^{d}\to\mathbb{R}^{d_{2}}$, we can write 
+        	\begin{align*}
+        		K_{1}&=\innerp{\varphi_{1}(x_{i})}{\varphi_{1}(x_{j})}=\varphi_{1}(x_{i})^{T}\varphi_{1}(x_{j})\\
+        		K_{2}&=\innerp{\varphi_{2}(x_{i})}{\varphi_{2}(x_{j})}=\varphi_{2}(x_{i})^{T}\varphi_{2}(x_{j})
+        	\end{align*}
+        	where $x_i,x_{j}\in\mathbb{R}^{d}$. Now, define
+        	\begin{align*}
+        		K_{4}&=K_{1}\cdot K_{2}=\innerp{\varphi_{1}(x_{i})}{\varphi_{1}(x_{j})}\cdot\innerp{\varphi_{2}(x_{i})}{\varphi_{2}(x_{j})}\\
+        		&=\innerp{\begin{bmatrix}\varphi_{11}(x_{i})\\\varphi_{12}(x_{i})\\\vdots\\\varphi_{1d_{1}}(x_{i})\end{bmatrix}}{\begin{bmatrix}\varphi_{11}(x_{j})\\\varphi_{12}(x_{j})\\\vdots\\\varphi_{1d_{1}}(x_{j})\end{bmatrix}}\cdot\innerp{\begin{bmatrix}\varphi_{21}(x_{i})\\\varphi_{22}(x_{i})\\\vdots\\\varphi_{2d_{2}}(x_{i})\end{bmatrix}}{\begin{bmatrix}\varphi_{21}(x_{j})\\\varphi_{22}(x_{j})\\\vdots\\\varphi_{2d_{2}}(x_{j})\end{bmatrix}}\\
+        		&=\left[\sum_{k=1}^{d_1}\varphi_{1k}(x_{i})\varphi_{1k}(x_{j})\right]\left[\sum_{l=1}^{d_2}\varphi_{2l}(x_{i})\varphi_{2l}(x_{j})\right]\\
+        		&=\sum_{l=1}^{d_{2}}\sum_{k=1}^{d_{1}}\varphi_{1k}(x_{i})\varphi_{2l}(x_{i})\varphi_{1k}(x_{j})\varphi_{2l}(x_{j})\\
+        		&=\innerp{\begin{bmatrix}\varphi_{11}(x_{i})\varphi_{21}(x_{i})\\\vdots\\\varphi_{1d_{1}}(x_{i})\varphi_{2d_{2}}(x_{i})\end{bmatrix}}{\begin{bmatrix}\varphi_{11}(x_{j})\varphi_{21}(x_{j})\\\vdots\\\varphi_{1d_{1}}(x_{j})\varphi_{2d_{2}}(x_{j})\end{bmatrix}}\\
+        		&=\innerp{\varphi_{1}(x_{i})\otimes\varphi_{2}(x_{i})}{\varphi_{1}(x_{j})\otimes\varphi_{2}(x_{j})}
+        	\end{align*}
+
+        	Hence, $K_{4}$ is a valid kernel corresponding to the feature mapping
+        	\begin{align*}
+				\varphi_{4}=\varphi_{1}\otimes\varphi_{2}:\mathbb{R}^{d}\to\mathbb{R}^{d_{1}d_{2}}
+			\end{align*}
+        	where $\otimes$ is Kronecker product.
         \end{solutionbox}
         
         \item \textbf{(2 points)} Show that $K_5 = f(u) K_1(u,v) f(v)$ is also a valid kernel for any function $f : \mathbb{R}^d \to \mathbb{R}$. Give the feature mapping $\varphi_5$ corresponding to $K_5$ in terms of $\varphi_1$ and $f$.
         
         \begin{solutionbox}
+        	As $K_1$ is a valid kernel functions with feature mapping $\varphi_{1}:\mathbb{R}^{d}\to\mathbb{R}^{d_{1}}$, we can write 
+        	\begin{align*}
+        		K_{1}(u,v)=\varphi_{1}(u)^{T}\varphi_{1}(v)
+        	\end{align*}
+        	where $u,v\in\mathbb{R}^{d}$. Now define
+        	\begin{align*}
+        		K_{5}(u,v)&=f(u)K_{1}(u,v)f(v)\\
+        		&=f(u)\varphi_{1}(u)^{T}\varphi_{1}(v)f(v)\\
+        		&=\innerp{f(u)\varphi_{1}(u)}{f(v)\varphi_{1}(v)}
+        	\end{align*}
+        	where $f:\mathbb{R}^{d}\to\mathbb{R}$.\\
+        	Hence, $K_{5}$ is a valid kernel corresponding to the feature mapping 
+        	\begin{align*}
+        		\varphi_{5}=\varphi_{1}f : \mathbb{R}^{d}\to\mathbb{R}^{d_{1}}
+        	\end{align*} 
         \end{solutionbox}
         
         \item \textbf{(2 points)} Show that a Kernel given by $K(u,v) = \exp(2u^T v)$ is a valid kernel. [Hint: Use the results above on a polynomial expansion of $\exp(t)$.]
         
         \begin{solutionbox}
+        	By Taylor series we have
+        	\begin{align*}
+        		K(u,v) &= \exp(2u^T v) = \sum_{k=0}^{\infty} \frac{(2u^T v)^k}{k!} = \sum_{k=0}^{\infty} \frac{2^k}{k!} (u^T v)^k=\sum_{k=0}^{\infty}K_{k}(u,v)
+        	\end{align*}
+        	where $K_k(u,v)=\frac{2^k}{k!} (u^T v)^k$.
+        	
+        	Equivalently we can write
+        	\begin{align*}
+        		K_k(u,v)=f_{k}(u)K_{k}^{'}(u,v)f_{k}(v)
+        	\end{align*}
+        	where $f_{k}=\sqrt{\frac{2^{k}}{k!}}$ and $K_{k}^{'}=(u^{T}v)^{k}$.\\
+        	Now
+        	\begin{align*}
+        		K_{k}^{'}(u,v)&=(u^{T}v)^{k}=\innerp{u}{v}^{k}=\innerp{u^{\otimes k}}{v^{\otimes k}}=\innerp{\varphi_{k}^{'}(u)}{\varphi_{k}^{'}(v)}
+        	\end{align*}
+        	where $\varphi_{k}^{'}(\cdot)=(\cdot)^{\otimes k}$ denotes the $k^{\text{th}}$ tensor power. Hence, $K_{k}^{'}$ is a valid kernel corresponding to the feature map $\varphi_{k}^{'}$. 
+        	
+        	Moreover, using the result from the previous problem (that $f(u)K_1(u,v)f(v)$ is a valid kernel), we have
+        	\begin{align*}
+        		K_k(u,v)&=f_k(u) \innerp{\varphi_k'(u)}{\varphi_k'(v)} f_k(v) \\
+        		&= \innerp{f_k(u) \varphi_k'(u)}{f_k(v) \varphi_k'(v)}.
+        	\end{align*}
+        	This shows that each $K_k(u,v)$ is a valid kernel with feature map 
+        	\begin{align*}
+        		\varphi_k(u) = f_k(u) \varphi_k'(u) = \sqrt{\frac{2^k}{k!}} u^{\otimes k}.
+        	\end{align*}
+        	
+        	Finally,
+        	\begin{align*}
+        		K(u,v)&=\sum_{k=0}^{\infty} K_{k}(u,v)=\sum_{k=0}^{\infty} \innerp{\varphi_{k}(u)}{\varphi_{k}(v)}=\innerp{\begin{bmatrix}\varphi_{0}(u)\\\varphi_{1}(u)\\\vdots\\\end{bmatrix}}{\begin{bmatrix}\varphi_{0}(v)\\\varphi_{1}(v)\\\vdots\\\end{bmatrix}}
+        	\end{align*}
+	        Hence, $K$ is a valid kernel corresponding to the feature mapping 
+	        \begin{align*}
+	        	\varphi(u)=\begin{bmatrix}
+	        		\varphi_0(u) \\
+	        		\varphi_1(u) \\
+	        		\varphi_2(u) \\
+	        		\vdots
+	        	\end{bmatrix}
+	        	=
+	        	\begin{bmatrix}
+	        		\sqrt{\frac{2^0}{0!}} u^{\otimes 0} \\
+	        		\sqrt{\frac{2^1}{1!}} u^{\otimes 1} \\
+	        		\sqrt{\frac{2^2}{2!}} u^{\otimes 2} \\
+	        		\vdots
+	        	\end{bmatrix}
+	        \end{align*} 
+	        where $u^{\otimes 0}=1$. 
         \end{solutionbox}
         
         \item \textbf{(0 points) (Optional)} Show that a Kernel given by $K(u,v) = \exp(-\|u-v\|^2)$ is a valid kernel. [Hint: Use the last two parts' results.]
         
         \begin{solutionbox}
+        	The given kernel
+        	\begin{align*}
+        		K(u,v)&=e^{-\norm{u-v}{2}^{2}}=e^{-\norm{u}{2}^{2}+2u^{T}v-\norm{v}{2}^{2}}=e^{-\norm{u}{2}^{2}} e^{2u^{T}v} e^{-\norm{v}{2}^{2}}.
+        	\end{align*}
+        	Using the results from previous problems, we can write
+        	\begin{align*}
+        		K(u,v)=\innerp{f(u)\varphi(u)}{f(v)\varphi(v)}=\innerp{\tilde{\varphi}(u)}{\tilde{\varphi}(v)}
+        	\end{align*}
+        	where 
+        	\begin{align*}
+        		f(u)=\exp(-\norm{u}{2}^{2}),\quad\varphi(u)=\begin{bmatrix}
+        		\sqrt{\frac{2^0}{0!}} u^{\otimes 0} \\
+        		\sqrt{\frac{2^1}{1!}} u^{\otimes 1} \\
+        		\sqrt{\frac{2^2}{2!}} u^{\otimes 2} \\
+        		\vdots
+        	\end{bmatrix}
+        \end{align*}
+        	Hence, $K$ is a valid kernel corresponding of the feature mapping
+        	\begin{align*}
+        		\tilde{\varphi}(u)=e^{-\norm{u}{2}^{2}}\begin{bmatrix}
+        			\sqrt{\frac{2^0}{0!}} u^{\otimes 0} \\
+        			\sqrt{\frac{2^1}{1!}} u^{\otimes 1} \\
+        			\sqrt{\frac{2^2}{2!}} u^{\otimes 2} \\
+        			\vdots
+        		\end{bmatrix}
+        	\end{align*}
         \end{solutionbox}
     
     \end{enumerate}
@@ -298,15 +441,20 @@
         Argue that both are identical and use it to prove the push-through matrix identity (also related to the Sherman–Morrison–Woodbury identity):\\ $(\Phi^T \Phi + I)^{-1} \Phi^T = \Phi^T (\Phi \Phi^T + I)^{-1}$.
 
         \begin{solutionbox}
-        	The standard primal solution
+        	The standard primal solution is
         	\begin{align*}
         		\nabla L(w)&=0\\
         		\Rightarrow \hat{w}_{primal}&= \left(\Phi^{T}\Phi+\mathbb{I}\right)^{-1}\Phi^{T}y
         	\end{align*}
-        	Now, the dual-derived solution
+        	and the dual-derived solution is
         	\begin{align*}
         		\hat{w}_{dual}&=\Phi^{T}\hat{\alpha}=\Phi^{T}\left(\Phi\Phi^{T}+\mathbb{I}\right)^{-1}y
         	\end{align*}
+        	Since these two are equal (because convex objective in $w$) for every $y$ , the linear operators must be same
+        	\begin{align*}
+        		\left(\Phi^{T}\Phi+\mathbb{I}\right)^{-1}\Phi^{T}=\Phi^{T}\left(\Phi\Phi^{T}+\mathbb{I}\right)^{-1}
+        	\end{align*}
+        	which is exactly the push-through matrix identity.
         \end{solutionbox}
         
         \item \textbf{(2 points)} Compare the computational complexity for calculating the two $\hat{w}$ solutions from part (d).
@@ -331,18 +479,41 @@
     \begin{enumerate}[label=(\alph*)]
         \item \textbf{(3 points)} By inspection or simple geometry, determine the equation of the maximal margin hyperplane that separates these two classes. Identify the weight vector $w$ and the intercept/bias $b$.
         \begin{solutionbox}
+        	As we can see from Figure \ref{fig:SVD_boundary} the decision boundary which maximize the margin is 
+        	\begin{align*}
+        		&x_{2}=2\Rightarrow \begin{bmatrix}0 & 1\end{bmatrix}\begin{bmatrix}x_{1}\\x_{2}\end{bmatrix}-2=0
+        	\end{align*}
+        	writing it in standard hyperplane form $w^{T}x+b=0$, we have $w=\begin{bmatrix}0\\1\end{bmatrix}$ and $b=-2$
+        	\begin{center}
+        		\includegraphics[width=.8\textwidth]{figure_5a.pdf}
+        		\captionof{figure}{add}
+        		\label{fig:SVD_boundary}
+        	\end{center}
     \end{solutionbox} 
-        \item \textbf{(3 points)} Identify the support vectors from the dataset. How do these points satisfy the condition $y_i(w^T x_i + b) = 1$?
-        \begin{solutionbox}
+    \item \textbf{(3 points)} Identify the support vectors from the dataset. How do these points satisfy the condition $y_i(w^T x_i + b) = 1$?
+    \begin{solutionbox}
+    	For class $+1$ the support vectors are $(2,3)$ and $(3,3)$.\\
+    	For class $-1$ the support vectors are $(1,1)$ and $(2,1)$.\\
+    	Consider the datapoints $(2,3)$ and $(3,3)$. For these point $y=+1$, so
+    	\begin{align*}
+    		y_{i}(w^{T}x_{i}+b)=+1\left(\begin{bmatrix}
+    			0 & 1
+    		\end{bmatrix}x_{i}-2\right)=1
+    	\end{align*}    	
+    	similarly for the datapoints $(1,1)$ and $(2,1)$ $y=-1$ so, we have
+    	\begin{align*}
+    		y_{i}(w^{T}x_{i}+b)=-1\left(\begin{bmatrix}0 & 1\end{bmatrix}x_{i}-2\right)=1
+    	\end{align*}
     \end{solutionbox} 
         \item \textbf{(2 points)} Suppose we remove the point $(1, 1)$ from the dataset. Would the decision boundary change? Now, suppose we instead remove the point $(2, 3)$. Would the decision boundary change in this case? Explain your reasoning.
 
     \begin{solutionbox}
+    	If we remove the point $(1,1)$ the decision boundary will not change. Because 
     \end{solutionbox} 
     \end{enumerate}
 
     % --- QUESTION 6 [GUESS-TIMATING BIAS AND VARIANCE]---
-    \item \textbf{(15 points) [GUESS-TIMATING BIAS AND VARIA NCE]} \\
+    \item \textbf{(15 points) [GUESS-TIMATING BIAS AND VARIANCE]} \\
     You are given a dataset consisting of 100 datapoints in \href{https://drive.google.com/drive/folders/1zW42_WnTQDCYy22ZbLPQmwVjFZyX3ZrP?usp=sharing}{this folder}. You have to fit a polynomial ridge regression model to this data.
 
     A model's error can be decomposed into bias, variance, and noise. A ``learning curve'' provides an opportunity to determine the bias and variance of machine learning models, and to identify models that suffer from high bias (underfitting) or high variance (overfitting). The ``learning curve'' typically shows the training error and validation/testing error on the y-axis and the model complexity on the x-axis.
@@ -350,13 +521,13 @@
     \begin{enumerate}[label=(\alph*)]
         \item \textbf{(2 points)} Read the last Section (Section 4) on "Bias and Variance in practice" in this \href{https://cs229.stanford.edu/summer2019/BiasVarianceAnalysis.pdf}{document}, and summarize briefly how you will heuristically find whether your model suffers from (i) high bias, or (ii) high variance, using only the train and validation/test errors of the model.
         \begin{solutionbox}
-
+        	As mentioned in the \href{https://cs229.stanford.edu/summer2019/BiasVarianceAnalysis.pdf}{document}  (i) high bias leads to under fitting and (ii) high variance leads to over fitting on the training data. Therefore heuristically I can say if the model performs poorly (i.e. high error) on the training as well as validation/test dataset it has high bias(under fit) and if the model performs good (i.e. low error) in training dataset but suffers in test/validation dataset then it has high variance(over fit).     
         \end{solutionbox}
         
         \item \textbf{(4 points)} Start with the code for polynomial regression and add quadratic regularization functionality to the code. That is, your code should do polynomial regression with quadratic regularization that takes degree $d$ and regularization parameter $\lambda$ as input. 
         \red{Do not use any inbuilt functions from Python packages (except for plotting functions, functions to compute polynomial features for each data point, and functions for (pseudo)inverse of matrices).}
         \begin{solutionbox}
-
+        	Written the code and attached below
         \end{solutionbox}
         
         \item \textbf{(4 points)} Run your code on the provided dataset for degree $d=24$ and each $\lambda$ in the set: 
@@ -366,19 +537,52 @@
              \item[ii.] Calculate the average training and validation errors across the 5 folds.
          \end{enumerate}
          \begin{solutionbox}
-
-        \end{solutionbox}
+         	The average training and validation errors across the $5$ folds are as follows
+         	\begin{center}
+         		\begin{tabular}{|c|c|c|}\hline
+         			$\lambda$ & Training error & Validation error\\\hline
+         			$10^{-15}$ &$ 10.4015$ & $62.6490$\\\hline
+         			$10^{-9}$ &$ 0.9076$ & $1.3552$\\\hline
+         			$10^{-6}$ &$ 0.9284$ & $1.2113$\\\hline
+         			$10^{-3}$ &$ 1.0180$ & $1.2334$\\\hline
+         			$10^{-2}$ &$1.1219$ & $1.2577$\\\hline
+         			$10^{-1}$ &$ 1.3129$ & $1.4736$\\\hline
+         			$1$ &$ 1.6767$ & $1.8537$\\\hline
+         			$10$ &$ 2.4839$ & $2.7989$\\\hline
+         			$10^{2}$ &$ 3.6237$ & $4.0391$\\\hline
+         			$10^{3}$ &$ 4.3157$ & $4.3851$\\\hline
+         			$10^{6}$ &$ 4.4512$ & $4.5091$\\\hline
+         			$10^{9}$ &$ 4.4440$ & $4.5753$\\\hline
+         			$10^{15}$ &$ 4.4542$ & $4.4830$\\\hline
+         		\end{tabular}
+         	\end{center}
+         \end{solutionbox}
         
 
         \item \textbf{(3 points)} Construct a learning curve by plotting the average training and validation errors against the model complexity ($\log_{10} \lambda$). Based on this learning curve, identify the (i) model with the highest bias, (ii) model with the highest variance?, and (iii) the model that will work best on some unseen data.
         \begin{solutionbox}
-        
+        	From the Figure \ref{fig:learning_curve} we can see
+        	\begin{enumerate}[label=(\roman*)]
+        		\item \textbf{Model with highest bias:} $10^{15}$
+        		\item \textbf{Model with highest variance:} $10^{-15}$
+        		\item \textbf{Model that will work best on some unseen data:} $10^{-6}$
+        	\end{enumerate}
+        	\begin{center}
+        		\includegraphics[width=\textwidth]{plots/learning_curve_polynomial_regression.pdf}
+        		\captionof{figure}{Learning Curve}
+        		\label{fig:learning_curve}
+        	\end{center}
         \end{solutionbox}
 
         \item \textbf{(2 points)} Plot the fitted curve to the given data ($\hat{y}$ against $x$ curve) for the three models reported in part (d) and superimposed with the training and validation data points for any one-fold. 
         
         \begin{solutionbox}
-        
+        	Figure \ref{fig:Fitted_polynominal} shows the fitted curve to the given data for models reported in part (d) with one fold training and validation data points.
+        	\begin{center}
+        		\includegraphics[width=\textwidth]{plots/fitted_polynomial_curves_one_fold.pdf}
+        		\captionof{figure}{Fitted Polynomial (degree $24$) curves}
+        		\label{fig:Fitted_polynominal}
+        	\end{center}
         \end{solutionbox}
         \end{enumerate}
         
