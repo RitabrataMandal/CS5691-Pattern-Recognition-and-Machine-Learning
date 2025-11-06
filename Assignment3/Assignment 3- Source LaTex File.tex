@@ -210,7 +210,8 @@
         Could a \textbf{soft-margin SVM} be used? If yes, justify your answer by describing what the resulting linear classifier would do (i.e., where would its 1D decision boundary likely be, and which points would it misclassify? consider two values of the model complexity hyperparameter $C$: $1$ and $1000$). 
         
         \begin{solutionbox}
-        	
+        	As we know, the hard-margin SVM will not tolerate any misclassification; therefore, there is no such decision boundary in 1D, hence the hard-margin SVM cannot solve the problem.\\
+
         \end{solutionbox}
     
     \end{enumerate}
@@ -344,7 +345,7 @@
         \begin{solutionbox}
         	The given kernel
         	\begin{align*}
-        		K(u,v)&=e^{-\norm{u-v}{2}^{2}}=e^{-\norm{u}{2}^{2}+2u^{T}v-\norm{v}{2}^{2}}=e^{-\norm{u}{2}^{2}} e^{2u^{T}v} e^{-\norm{v}{2}^{2}}.
+        		K(u,v)&=e^{-\norm{u-v}{2}^{2}}=e^{-\norm{u}{2}^{2}+2u^{T}v-\norm{v}{2}^{2}}=e^{-\norm{u}{2}^{2}}\cdot e^{2u^{T}v}\cdot e^{-\norm{v}{2}^{2}}.
         	\end{align*}
         	Using the results from previous problems, we can write
         	\begin{align*}
@@ -359,7 +360,7 @@
         		\vdots
         	\end{bmatrix}
         \end{align*}
-        	Hence, $K$ is a valid kernel corresponding of the feature mapping
+        	Hence, $K$ is a valid kernel corresponding to the feature mapping
         	\begin{align*}
         		\tilde{\varphi}(u)=e^{-\norm{u}{2}^{2}}\begin{bmatrix}
         			\sqrt{\frac{2^0}{0!}} u^{\otimes 0} \\
@@ -463,6 +464,23 @@
         Based on your analysis, when is the primal solution more efficient to compute, and when is the dual solution more efficient?
     
         \begin{solutionbox}
+        	For primal problem
+        	\begin{itemize}
+        		\item forming $\Phi^T\Phi$ cost : $O(d'^2n)$
+        		\item forming $(\Phi^T \Phi +\mathbb{I})^{-1}$ cost : $O(d'^3)$
+        		\item forming $\Phi^Ty$ cost : $O(d'n)$
+        		\item multiplying $(\Phi^T\Phi+\mathbb{I})^{-1}$ with $\Phi^{T}y$ cost : $O(d'^2)$
+        	\end{itemize}
+        	the total cost: $O(n d'^2 + d'^3).$\\
+        	For dual problem
+        	\begin{itemize}
+        		\item forming $\Phi\Phi^T$ cost : $O(n^2 d')$
+        		\item forming $(\Phi\Phi^T+\mathbb{I})^{-1}$ cost : $O(n^3)$
+        		\item multiplying $\Phi^T$ with $(\Phi\Phi^T +\mathbb{I})^{-1}$ cost : $O(n^2 d')$
+        		\item multiplying $\Phi^T(\Phi\Phi^T+\mathbb{I})^{-1}$ with $y$ cost : $O(nd')$
+        	\end{itemize}
+        	the total cost: $O(n^2 d' + n^3)$.\\
+        	Hence, when $d^{'}\ll n$(i.e., feature space is smaller then the number of data points) solving the primal problem is computationally efficient (because $O(n d'^2 + d'^3)\ll O(n^2 d' + n^3)$) whereas if $d^{'}\gg n$(i.e., number of data points is smaller then the feature space) solving the dual problem is computationally efficient (because $O(n d'^2 + d'^3)\gg O(n^2 d' + n^3)$ ).
         \end{solutionbox}
     
     \end{enumerate}
@@ -479,15 +497,15 @@
     \begin{enumerate}[label=(\alph*)]
         \item \textbf{(3 points)} By inspection or simple geometry, determine the equation of the maximal margin hyperplane that separates these two classes. Identify the weight vector $w$ and the intercept/bias $b$.
         \begin{solutionbox}
-        	As we can see from Figure \ref{fig:SVD_boundary} the decision boundary which maximize the margin is 
+        	As we can see from Figure \ref{fig:SVD_boundary_a} the decision boundary which maximize the margin is 
         	\begin{align*}
         		&x_{2}=2\Rightarrow \begin{bmatrix}0 & 1\end{bmatrix}\begin{bmatrix}x_{1}\\x_{2}\end{bmatrix}-2=0
         	\end{align*}
         	writing it in standard hyperplane form $w^{T}x+b=0$, we have $w=\begin{bmatrix}0\\1\end{bmatrix}$ and $b=-2$
         	\begin{center}
         		\includegraphics[width=.8\textwidth]{figure_5a.pdf}
-        		\captionof{figure}{add}
-        		\label{fig:SVD_boundary}
+        		\captionof{figure}{Data points with decision boundary}
+        		\label{fig:SVD_boundary_a}
         	\end{center}
     \end{solutionbox} 
     \item \textbf{(3 points)} Identify the support vectors from the dataset. How do these points satisfy the condition $y_i(w^T x_i + b) = 1$?
@@ -508,10 +526,21 @@
         \item \textbf{(2 points)} Suppose we remove the point $(1, 1)$ from the dataset. Would the decision boundary change? Now, suppose we instead remove the point $(2, 3)$. Would the decision boundary change in this case? Explain your reasoning.
 
     \begin{solutionbox}
-    	If we remove the point $(1,1)$ the decision boundary will not change. Because 
+    	If we remove the point $(1,1)$, the decision boundary remains unchanged. Since removing the support vector does not increase the distance between the class hulls, the previous optimal hyperplane remains optimal.\\
+    	Now, if we remove $(2,3)$, the positive class is only at $(3,3)$, which will be a support vector, and the nearest point from the negative hull(i.e., convex combination of $(1,1)$ and $(2,1)$) is $(2,1)$. Moreover, the maximum margin hyperplane is the perpendicular bisector of the segment joining the points $(2,1)$ and $(3,3)$. Therefore, the perpendicular bisector has a midpoint of $(2.5, 2)$ and a normal vector of $(1, 2)$. Finally, the equation is
+    	\begin{align*}
+    		(x_{1}-2.5)+2(x_{2}-2)&=0\Rightarrow x_{1} +2 x_{2} -6.5=0\\
+    		\Rightarrow \begin{bmatrix}\frac{2}{5}&\frac{4}{5}\end{bmatrix}x -2.6&=0\Rightarrow w^{T}x+b = 0 
+    	\end{align*}
+    	where $w=\begin{bmatrix}0.4\\0.8\end{bmatrix}$ and $b=-2.6.$\\
+    	Figure \ref{fig:SVD_boundary_b} shows the new decision boundary after removing the datapoint $(2,3)$.
+    	\begin{center}
+    		\includegraphics[width=.8\textwidth]{figure_5c.pdf}
+    		\captionof{figure}{New decision boundary after removing datapoint $(2,3)$}
+    		\label{fig:SVD_boundary_b}
+    	\end{center}
     \end{solutionbox} 
     \end{enumerate}
-
     % --- QUESTION 6 [GUESS-TIMATING BIAS AND VARIANCE]---
     \item \textbf{(15 points) [GUESS-TIMATING BIAS AND VARIANCE]} \\
     You are given a dataset consisting of 100 datapoints in \href{https://drive.google.com/drive/folders/1zW42_WnTQDCYy22ZbLPQmwVjFZyX3ZrP?usp=sharing}{this folder}. You have to fit a polynomial ridge regression model to this data.
@@ -521,13 +550,13 @@
     \begin{enumerate}[label=(\alph*)]
         \item \textbf{(2 points)} Read the last Section (Section 4) on "Bias and Variance in practice" in this \href{https://cs229.stanford.edu/summer2019/BiasVarianceAnalysis.pdf}{document}, and summarize briefly how you will heuristically find whether your model suffers from (i) high bias, or (ii) high variance, using only the train and validation/test errors of the model.
         \begin{solutionbox}
-        	As mentioned in the \href{https://cs229.stanford.edu/summer2019/BiasVarianceAnalysis.pdf}{document}  (i) high bias leads to under fitting and (ii) high variance leads to over fitting on the training data. Therefore heuristically I can say if the model performs poorly (i.e. high error) on the training as well as validation/test dataset it has high bias(under fit) and if the model performs good (i.e. low error) in training dataset but suffers in test/validation dataset then it has high variance(over fit).     
+        	As mentioned in the \href{https://cs229.stanford.edu/summer2019/BiasVarianceAnalysis.pdf}{document}  (i) high bias leads to under fitting and (ii) high variance leads to over fitting on the training data. Therefore heuristically I can say if the model performs poorly(i.e., high error) on the training as well as validation/test dataset it has high bias(under fit) and if the model performs good(i.e., low error) in training dataset but suffers in test/validation dataset then it has high variance(over fit).     
         \end{solutionbox}
         
         \item \textbf{(4 points)} Start with the code for polynomial regression and add quadratic regularization functionality to the code. That is, your code should do polynomial regression with quadratic regularization that takes degree $d$ and regularization parameter $\lambda$ as input. 
         \red{Do not use any inbuilt functions from Python packages (except for plotting functions, functions to compute polynomial features for each data point, and functions for (pseudo)inverse of matrices).}
         \begin{solutionbox}
-        	Written the code and attached below
+        	Written code and attached below
         \end{solutionbox}
         
         \item \textbf{(4 points)} Run your code on the provided dataset for degree $d=24$ and each $\lambda$ in the set: 
