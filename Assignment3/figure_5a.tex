@@ -16,13 +16,33 @@
 			ylabel={$x_{2}$},
 %			xlabel style={at={(axis description cs:1,-0.05)}},
 %			ylabel style={at={(axis description cs:-0.05,1)}},
-			thick
+			thick,
+			legend style={
+				nodes={scale=0.6, transform shape}, 
+				at={(1,1.01)},
+				anchor=north east,
+				draw=black,
+				fill=white,
+				fill opacity=0.9,
+				row sep=1pt,
+				column sep=1pt,
+				inner sep=2pt,
+				font=\scriptsize
+			},		
+			legend cell align={left},
+			legend image post style={scale=0.6} 
 			]
 			% Data points
 			\addplot+[only marks, mark=*, mark size=2pt, color=blue!80!black]
 			coordinates { (2,3) (3,3) };
+			\addlegendentry{Positive class (+1)}
 			\addplot+[only marks, mark=*, mark size=2pt, color=red!70!black]
 			coordinates { (1,1) (2,1) };
+			\addlegendentry{Negative class (-1)}
+			
+			\addplot+[only marks, mark=o, mark size=4pt, line width=0.8pt, color=black]
+			coordinates { (2,3) (2,1) };
+			\addlegendentry{Support vectors}
 			
 			% Decision boundary and margins
 			\addplot[thick,green!60!black] coordinates {(-0.5, 2)(6, 2)}
